@@ -10,6 +10,7 @@ With this library extension method Random.NextInt32() returns a random integer i
 ```csharp
 var rnd = new Random();
 
+sbyte val1 = rnd.NextSByte();
 byte val1 = rnd.NextByte();
 short val2 = rnd.NextInt16();
 ushort val3 = rnd.NextUInt16();
