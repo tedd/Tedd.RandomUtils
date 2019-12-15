@@ -139,7 +139,6 @@ namespace Tedd.RandomExtensions.Tests
         public void TestUInt64()
         {
             var rnd = new Random();
-            var align = 1_000_000_000_000_000_000L;
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
