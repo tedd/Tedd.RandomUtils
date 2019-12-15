@@ -7,7 +7,7 @@ Random.Next(to, from) normally is exclusive on "from" making it difficult to get
 With this library extension method Random.NextInt32() returns a random integer including the full range of negative and positive values.
 
 # Examples
-´
+```csharp
 var rnd = new Random();
 
 byte val1 = rnd.NextByte();
@@ -18,4 +18,4 @@ uint val5 = rnd.NextUInt32();
 long val6 = rnd.NextInt64();
 ulong val7 = rnd.NextUInt64();
 float val8 = rnd.NextFloat();
-´
+```
