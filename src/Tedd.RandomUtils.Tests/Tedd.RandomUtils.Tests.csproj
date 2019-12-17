@@ -14,7 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tedd.RandomExtensions\Tedd.RandomExtensions.csproj" />
+    <ProjectReference Include="..\Tedd.RandomUtils\Tedd.RandomUtils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="RandomExtensions\" />
   </ItemGroup>
 
 </Project>

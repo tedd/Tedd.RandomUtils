@@ -3,7 +3,7 @@ using System.Numerics;
 using System.Reflection.Metadata;
 using Xunit;
 
-namespace Tedd.RandomExtensions.Tests
+namespace Tedd.RandomUtils.Tests
 {
     public class AverageTest
     {
