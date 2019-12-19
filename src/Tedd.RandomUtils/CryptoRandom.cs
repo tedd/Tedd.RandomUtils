@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Buffers;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 
 namespace Tedd.RandomUtils
 {
     public class CryptoRandom : IDisposable
     {
-
+        private ArrayPool<byte> _arrayPool = ArrayPool<byte>.Shared;
         private readonly RandomNumberGenerator _rng;
 
         public CryptoRandom()
@@ -53,16 +55,16 @@ namespace Tedd.RandomUtils
                 return minValue;
 
             // Do
-            var result = new byte[4];
+            var result = _arrayPool.Rent(4);
             var diff = maxValue - minValue;
             int val;
             for (; ; )
             {
                 _rng.GetBytes(result);
                 uint i = (uint)(
-                      (result[0] << 24)
-                    | (result[1] << 16)
-                    | (result[2] << 8)
+                      (result[0] << 8 * 3)
+                    | (result[1] << 8 * 2)
+                    | (result[2] << 8 * 1)
                     | result[3]);
                 var d = (double)i / (double)UInt32.MaxValue;
                 val = minValue + (int)(d * (double)diff);
@@ -70,6 +72,7 @@ namespace Tedd.RandomUtils
                 if (val < maxValue) // Unlikely that we'll get 1.0D, but a promise is a promise.
                     break;
             }
+            _arrayPool.Return(result);
             return val;
         }
 
@@ -103,13 +106,14 @@ namespace Tedd.RandomUtils
             return buffer;
         }
 
+
         /// <summary>
         /// Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.
         /// </summary>
         /// <returns>A double-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
         public double NextDouble()
         {
-            var result = new byte[8];
+            var result = _arrayPool.Rent(8);
             var d = 0.0D;
 
             for (; ; )
@@ -122,8 +126,110 @@ namespace Tedd.RandomUtils
                     break;
             }
 
+            _arrayPool.Return(result);
             return d;
         }
+
+
+        /// <summary>
+        /// Gets random value from inclusive SByte.MinValue to inclusive SByte.MaxValue.
+        /// </summary>
+        /// <returns>Random number from -128 to 127 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public SByte NextSByte() => (SByte)NextByte();
+
+        /// <summary>
+        /// Gets random value from inclusive Byte.MinValue to inclusive Byte.MaxValue.
+        /// </summary>
+        /// <returns>Random number from 0 to 255 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Byte NextByte()
+        {
+            var buffer = _arrayPool.Rent(sizeof(Byte));
+            _rng.GetBytes(buffer);
+            var result = (Byte)buffer[0];
+            _arrayPool.Return(buffer);
+            return result;
+        }
+
+        /// <summary>
+        /// Gets random value from inclusive Int16.MinValue to inclusive Int16.MaxValue.
+        /// ()
+        /// </summary>
+        /// <returns>Random number from -32_768 to 32_767 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int16 NextInt16() => (Int16)NextUInt16();
+
+        /// <summary>
+        /// Gets random value from inclusive UInt16.MinValue to inclusive UInt16.MaxValue.
+        /// </summary>
+        /// <returns>Random number from 0 to 65_535 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public UInt16 NextUInt16()
+        {
+            var buffer = _arrayPool.Rent(sizeof(UInt16));
+            _rng.GetBytes(buffer);
+            var result = (UInt16)((UInt16)buffer[0]
+                               | ((UInt16)buffer[1] << 8));
+            _arrayPool.Return(buffer);
+            return result;
+        }
+
+        /// <summary>
+        /// Gets random value from inclusive Int32.MinValue to inclusive Int32.MaxValue.
+        /// </summary>
+        /// <returns>Random number from -2_147_483_648 to 2_147_483_647 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int32 NextInt32() => (Int32)NextUInt32();
+
+        /// <summary>
+        /// Gets random value from inclusive UInt32.MinValue to inclusive UInt32.MaxValue.
+        /// </summary>
+        /// <returns>Random number from 0 to 4_294_967_295 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public UInt32 NextUInt32()
+        {
+            var buffer = _arrayPool.Rent(sizeof(UInt32));
+            _rng.GetBytes(buffer);
+            var result = (UInt32)((UInt32)buffer[0]
+                               | ((UInt32)buffer[1] << 8 * 1)
+                               | ((UInt32)buffer[2] << 8 * 2)
+                               | ((UInt32)buffer[3] << 8 * 3)
+                               );
+            _arrayPool.Return(buffer);
+            return result;
+        }
+
+        /// <summary>
+        /// Gets random value from inclusive Int64.MinValue to inclusive Int64.MaxValue.
+        /// </summary>
+        /// <returns>Random number from -9_223_372_036_854_775_808 to 9_223_372_036_854_775_807 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int64 NextInt64() => (Int64)NextUInt64();
+
+        /// <summary>
+        /// Gets random value from inclusive UInt64.MinValue to inclusive UInt64.MaxValue.
+        /// </summary>
+        /// <returns>Random number from 0 to 18_446_744_073_709_551_615 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public UInt64 NextUInt64()
+        {
+            var buffer = _arrayPool.Rent(sizeof(UInt64));
+            _rng.GetBytes(buffer);
+            var result = (UInt64)((UInt64)buffer[0]
+                               | ((UInt64)buffer[1] << 8 * 1)
+                               | ((UInt64)buffer[2] << 8 * 2)
+                               | ((UInt64)buffer[3] << 8 * 3)
+
+                               | ((UInt64)buffer[4] << 8 * 4)
+                               | ((UInt64)buffer[5] << 8 * 5)
+                               | ((UInt64)buffer[6] << 8 * 6)
+                               | ((UInt64)buffer[7] << 8 * 7)
+                               );
+            _arrayPool.Return(buffer);
+            return result;
+        }
+
 
         #region IDisposable
         private void ReleaseUnmanagedResources()
