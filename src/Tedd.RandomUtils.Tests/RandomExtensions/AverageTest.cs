@@ -1,9 +1,8 @@
 using System;
 using System.Numerics;
-using System.Reflection.Metadata;
 using Xunit;
 
-namespace Tedd.RandomUtils.Tests
+namespace Tedd.RandomUtils.Tests.RandomExtensions
 {
     public class AverageTest
     {

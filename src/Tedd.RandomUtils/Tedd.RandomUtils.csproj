@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;netcoreapp2.0;netcoreapp2.1;netcoreapp3.0;netstandard2.1;netcoreapp2.1;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net461;netstandard2.1;netcoreapp2.1;netcoreapp2.0;netcoreapp2.1;netcoreapp3.0;netcoreapp3.1</TargetFrameworks>
+    <!--<TargetFramework>netcoreapp3.0</TargetFramework>-->
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Tedd Hansen</Authors>
     <Company>Tedd Hansen</Company>
-    <Description>Random Extension Methods for SByte, Byte, Int16, UInt16, Int32, UInt32, Int64, UInt64, short, int, long</Description>
+    <Description>Random Extension Methods for SByte, Byte, Int16, UInt16, Int32, UInt32, Int64, UInt64, short, int, long. This packet replaced Tedd.MoreRandom and Tedd.RandomExtensions.</Description>
     <PackageTags>Random System.Random NextSByte NextByte NextInt64 NextUInt16 NextInt32 NextUInt32 NextInt64 NextUInt64 SByte Byte Int16 UInt16 Int32 UInt32 Int64 UInt64 short int long</PackageTags>
     <Copyright>Tedd Hansen</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
