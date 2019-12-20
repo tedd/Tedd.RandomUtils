@@ -58,20 +58,19 @@ namespace Tedd.RandomUtils
             var result = _arrayPool.Rent(4);
             var diff = maxValue - minValue;
             int val;
-            for (; ; )
+            do
             {
                 _rng.GetBytes(result);
                 uint i = (uint)(
-                      (result[0] << 8 * 3)
+                    (result[0] << 8 * 3)
                     | (result[1] << 8 * 2)
                     | (result[2] << 8 * 1)
                     | result[3]);
                 var d = (double)i / (double)UInt32.MaxValue;
                 val = minValue + (int)(d * (double)diff);
 
-                if (val < maxValue) // Unlikely that we'll get 1.0D, but a promise is a promise.
-                    break;
-            }
+                // Unlikely that we'll get 1.0D, but a promise is a promise.
+            } while (val >= maxValue);
             _arrayPool.Return(result);
             return val;
         }
@@ -116,20 +115,38 @@ namespace Tedd.RandomUtils
             var result = _arrayPool.Rent(8);
             var d = 0.0D;
 
-            for (; ; )
+            do
             {
                 _rng.GetBytes(result);
                 var i = BitConverter.ToUInt64(result, 0);
 
                 d = (double)i / (double)ulong.MaxValue;
-                if (d < 1.0D) // Unlikely that we'll get 1.0D, but a promise is a promise.
-                    break;
-            }
+
+                // Unlikely that we'll get 1.0D, but a promise is a promise.
+            } while (d >= 1.0D);
 
             _arrayPool.Return(result);
             return d;
         }
 
+
+        /// <summary>
+        /// Gets random value of true/false.
+        /// </summary>
+        /// <param name="trueProbability">A probability of <see langword="true"/> result (should be between 0.0 and 1.0).</param>
+        /// <returns>Random true or false.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool NextBoolean(double trueProbability = 0.5D) => trueProbability >= 0.0D && trueProbability <= 1.0D ?
+            NextDouble() >= 1.0D - trueProbability :
+            throw new ArgumentOutOfRangeException(nameof(trueProbability));
+
+
+        /// <summary>
+        /// Gets random value from between 0 and 1.
+        /// </summary>
+        /// <returns>Random number between 0 and 1.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float NextFloat() => (float)NextDouble();
 
         /// <summary>
         /// Gets random value from inclusive SByte.MinValue to inclusive SByte.MaxValue.
@@ -154,7 +171,6 @@ namespace Tedd.RandomUtils
 
         /// <summary>
         /// Gets random value from inclusive Int16.MinValue to inclusive Int16.MaxValue.
-        /// ()
         /// </summary>
         /// <returns>Random number from -32_768 to 32_767 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -229,6 +245,57 @@ namespace Tedd.RandomUtils
             _arrayPool.Return(buffer);
             return result;
         }
+
+
+        #region String
+
+        // Note that .Net Core sometime after 3.1 will probably be getting these
+#if NET461 || NETSTANDARD || NETCOREAPP2_1 || NETCOREAPP3 || NETCOREAPP3_0 || NETCOREAPP3_1
+        /// <summary>
+        /// Generates random string of the given length.
+        /// </summary>
+        /// <param name="allowedChars">The allowed characters for the random string.</param>
+        /// <param name="length">The length of the random string.</param>
+        /// <returns>Randomly generated string.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
+        public string NextString(ReadOnlySpan<char> allowedChars, int length)
+        {
+            if (length < 0)
+                throw new ArgumentOutOfRangeException(nameof(length));
+            if (length == 0)
+                return string.Empty;
+            var result = new char[length];
+            for (var i = 0; i < length; i++)
+                result[i] = allowedChars[Next(0, allowedChars.Length)];
+            return new string(result, 0, length);
+        }
+
+
+        /// <summary>
+        /// Generates random string of the given length.
+        /// </summary>
+        /// <param name="allowedChars">The array of allowed characters for the random string.</param>
+        /// <param name="length">The length of the random string.</param>
+        /// <returns>Randomly generated string.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string NextString(char[] allowedChars, int length)
+            => NextString(new ReadOnlySpan<char>(allowedChars), length);
+
+        /// <summary>
+        /// Generates random string of the given length.
+        /// </summary>
+        /// <param name="allowedChars">The string of allowed characters for the random string.</param>
+        /// <param name="length">The length of the random string.</param>
+        /// <returns>Randomly generated string.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public string NextString(string allowedChars, int length)
+            => NextString(allowedChars.AsSpan(), length);
+#endif
+        #endregion
+
+
 
 
         #region IDisposable

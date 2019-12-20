@@ -6,7 +6,7 @@ namespace Tedd.RandomUtils.Tests.CryptoRandom
     public class BoundaryTest
     {
         private RandomUtils.CryptoRandom _trueRandom = new RandomUtils.CryptoRandom();
-        private const int TestIterations = 10000000;
+        private const int TestIterations = 1_000_000;
 
         [InlineData(-1)]
         [InlineData(0)]

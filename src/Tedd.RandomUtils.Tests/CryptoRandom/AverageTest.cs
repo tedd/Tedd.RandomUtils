@@ -2,7 +2,7 @@ using System;
 using System.Numerics;
 using Xunit;
 
-namespace Tedd.RandomUtils.Tests.RandomExtensions
+namespace Tedd.RandomUtils.Tests.CryptoRandom
 {
     public class AverageTest
     {
@@ -11,11 +11,36 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         private float tolerance = 0.1f;
 
 
+        [InlineData(1_000)]
+        [InlineData(10_000)]
+        [InlineData(100_000)]
+        [Theory]
+        public void TestGetByteArray(int size)
+        {
+            using var rnd = new RandomUtils.CryptoRandom();
+            for (var c = 0; c < count; c++)
+            {
+                BigInteger sum = 0;
+
+                var array = rnd.GetByteArray(size);
+                Assert.Equal(size,array.Length);
+
+                for (var i = 0; i < size; i++)
+                {
+                    sum += array[i];
+                }
+
+                sum /= size;
+
+                Assert.InRange((int)sum, 120,140);
+            }
+        }
+
 
         [Fact]
         public void TestBoolean()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 var t = 0;
@@ -37,7 +62,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestFloat()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -52,7 +77,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestSByte()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -67,7 +92,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestByte()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -82,7 +107,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestInt16()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -97,7 +122,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestUInt16()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -113,7 +138,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestInt32()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -128,7 +153,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestUInt32()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -144,7 +169,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestInt64()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -160,7 +185,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestUInt64()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -181,7 +206,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Theory]
         public void TestString_String(string chars, int length)
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 var str = rnd.NextString(chars, length);
@@ -197,7 +222,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Theory]
         public void TestString_Chars(string chars, int length)
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 var str = rnd.NextString(chars.ToCharArray(), length);
@@ -213,7 +238,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Theory]
         public void TestString_Span(string chars, int length)
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             for (var c = 0; c < count; c++)
             {
                 var str = rnd.NextString(new ReadOnlySpan<char>(chars.ToCharArray()), length);
@@ -227,7 +252,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestString_ArgumentOutOfRangeException()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             Assert.Throws<ArgumentOutOfRangeException>(() => rnd.NextString("abc", -1));
         }
 
@@ -235,7 +260,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestString_Empty()
         {
-            var rnd = new Random();
+            using var rnd = new RandomUtils.CryptoRandom();
             Assert.Equal(string.Empty,rnd.NextString("abc", 0));
         }
     }

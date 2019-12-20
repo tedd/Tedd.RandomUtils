@@ -30,7 +30,7 @@ namespace Tedd.RandomUtils
                     SpinLock.Exit();
             }
         }
-        
+
         /// <summary>
         /// Gets the System.Random object for current thread.
         /// </summary>
@@ -97,6 +97,13 @@ namespace Tedd.RandomUtils
 
 
         #region Extension methods
+        /// <summary>
+        /// Gets random value of true/false.
+        /// </summary>
+        /// <param name="trueProbability">A probability of <see langword="true"/> result (should be between 0.0 and 1.0).</param>
+        /// <returns>Random true or false.</returns>1
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool NextBoolean(double trueProbability = 0.5D) => ThreadRandom.Value.NextBoolean(trueProbability);
 
         /// <summary>
         /// Gets random value from between 0 and 1.
@@ -165,6 +172,47 @@ namespace Tedd.RandomUtils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static UInt64 NextUInt64() => ThreadRandom.Value.NextUInt64();
 
+        #region String
+
+        // Note that .Net Core sometime after 3.1 will probably be getting these
+#if NET461 || NETSTANDARD || NETCOREAPP2_1 || NETCOREAPP3 || NETCOREAPP3_0 || NETCOREAPP3_1
+
+        /// <summary>
+        /// Generates random string of the given length.
+        /// </summary>
+        /// <param name="allowedChars">The allowed characters for the random string.</param>
+        /// <param name="length">The length of the random string.</param>
+        /// <returns>Randomly generated string.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string NextString(ReadOnlySpan<char> allowedChars, int length)
+            => ThreadRandom.Value.NextString(allowedChars, length);
+
+        /// <summary>
+        /// Generates random string of the given length.
+        /// </summary>
+        /// <param name="allowedChars">The array of allowed characters for the random string.</param>
+        /// <param name="length">The length of the random string.</param>
+        /// <returns>Randomly generated string.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string NextString(char[] allowedChars, int length)
+            => ThreadRandom.Value.NextString(new ReadOnlySpan<char>(allowedChars), length);
+
+        /// <summary>
+        /// Generates random string of the given length.
+        /// </summary>
+        /// <param name="allowedChars">The string of allowed characters for the random string.</param>
+        /// <param name="length">The length of the random string.</param>
+        /// <returns>Randomly generated string.</returns>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string NextString(string allowedChars, int length)
+            => ThreadRandom.Value.NextString(allowedChars.AsSpan(), length);
+#endif
         #endregion
     }
+
+    #endregion
+
 }

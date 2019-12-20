@@ -6,7 +6,7 @@ namespace Tedd.RandomUtils.Tests.CryptoRandom
     public class RandomTest
     {
         private RandomUtils.CryptoRandom _trueRandom = new RandomUtils.CryptoRandom();
-        private const int TestIterations = 10000000;
+        private const int TestIterations = 1_000_000;
 
         [InlineData(0, 4)]
         [InlineData(10, 21)]
@@ -67,7 +67,7 @@ namespace Tedd.RandomUtils.Tests.CryptoRandom
 
             // We expect average of high amount of random numbers to be close to 127.5D.
             var diff = Math.Abs(avg - 127.5m);
-            Assert.True(diff < 0.01m, $"Diff {diff} must be less than 0.01m");
+            Assert.True(diff < 0.02m, $"Diff {diff} must be less than 0.02m");
         }
 
     }

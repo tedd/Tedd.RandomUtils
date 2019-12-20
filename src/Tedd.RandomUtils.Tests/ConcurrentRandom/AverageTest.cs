@@ -1,8 +1,9 @@
 using System;
 using System.Numerics;
 using Xunit;
+using rnd = Tedd.RandomUtils.ConcurrentRandom;
 
-namespace Tedd.RandomUtils.Tests.RandomExtensions
+namespace Tedd.RandomUtils.Tests.ConcurrentRandom
 {
     public class AverageTest
     {
@@ -11,11 +12,12 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         private float tolerance = 0.1f;
 
 
+ 
 
         [Fact]
         public void TestBoolean()
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 var t = 0;
@@ -37,7 +39,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestFloat()
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -52,7 +54,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestSByte()
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -67,7 +69,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestByte()
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -82,7 +84,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestInt16()
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -97,7 +99,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestUInt16()
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -113,7 +115,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestInt32()
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -128,7 +130,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestUInt32()
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -144,7 +146,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestInt64()
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -160,7 +162,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestUInt64()
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 BigInteger sum = 0;
@@ -181,7 +183,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Theory]
         public void TestString_String(string chars, int length)
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 var str = rnd.NextString(chars, length);
@@ -197,7 +199,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Theory]
         public void TestString_Chars(string chars, int length)
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 var str = rnd.NextString(chars.ToCharArray(), length);
@@ -213,7 +215,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Theory]
         public void TestString_Span(string chars, int length)
         {
-            var rnd = new Random();
+            
             for (var c = 0; c < count; c++)
             {
                 var str = rnd.NextString(new ReadOnlySpan<char>(chars.ToCharArray()), length);
@@ -227,7 +229,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestString_ArgumentOutOfRangeException()
         {
-            var rnd = new Random();
+            
             Assert.Throws<ArgumentOutOfRangeException>(() => rnd.NextString("abc", -1));
         }
 
@@ -235,7 +237,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
         [Fact]
         public void TestString_Empty()
         {
-            var rnd = new Random();
+            
             Assert.Equal(string.Empty,rnd.NextString("abc", 0));
         }
     }
