@@ -95,15 +95,15 @@ namespace Tedd.RandomUtils
         }
 #endif
 
-        /// <summary>
-        /// Generates an array and fills the byte elements with random numbers.
-        /// </summary>
-        public byte[] GetByteArray(int size)
-        {
-            var buffer = new byte[size];
-            _rng.GetBytes(buffer);
-            return buffer;
-        }
+        ///// <summary>
+        ///// Generates an array and fills the byte elements with random numbers.
+        ///// </summary>
+        //public byte[] GetByteArray(int size)
+        //{
+        //    var buffer = new byte[size];
+        //    _rng.GetBytes(buffer);
+        //    return buffer;
+        //}
 
 
         /// <summary>

@@ -6,9 +6,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Tedd Hansen</Authors>
     <Company>Tedd Hansen</Company>
-    <Description>
-Random Methods for SByte, Byte, Int16, UInt16, Int32, UInt32, Int64, UInt64, short, int, long. This packet replaced Tedd.MoreRandom and Tedd.RandomExtensions.</Description>
-    <PackageTags>Random System.Random NextSByte NextByte NextInt64 NextUInt16 NextInt32 NextUInt32 NextInt64 NextUInt64 SByte Byte Int16 UInt16 Int32 UInt32 Int64 UInt64 short int long</PackageTags>
+    <Description>ConcurrentRandom (thread safe lockless random), CryptoRandom (rng crypto grade random), plus methods for primitive datatypes SByte, Byte, Int16, UInt16, Int32, UInt32, Int64, UInt64, short, int, long. This packet replaces Tedd.MoreRandom and Tedd.RandomExtensions.</Description>
+    <PackageTags>ConcurrentRandom Thread safe Lockless RNG Crypto Random System.Random NextSByte NextByte NextInt64 NextUInt16 NextInt32 NextUInt32 NextInt64 NextUInt64 SByte Byte Int16 UInt16 Int32 UInt32 Int64 UInt64 short int long</PackageTags>
     <Copyright>Tedd Hansen</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/tedd/Tedd.RandomUtils</PackageProjectUrl>

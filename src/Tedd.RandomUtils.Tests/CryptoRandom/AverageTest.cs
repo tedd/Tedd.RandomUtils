@@ -11,30 +11,30 @@ namespace Tedd.RandomUtils.Tests.CryptoRandom
         private float tolerance = 0.1f;
 
 
-        [InlineData(1_000)]
-        [InlineData(10_000)]
-        [InlineData(100_000)]
-        [Theory]
-        public void TestGetByteArray(int size)
-        {
-            using var rnd = new RandomUtils.CryptoRandom();
-            for (var c = 0; c < count; c++)
-            {
-                BigInteger sum = 0;
+        //[InlineData(1_000)]
+        //[InlineData(10_000)]
+        //[InlineData(100_000)]
+        //[Theory]
+        //public void TestGetByteArray(int size)
+        //{
+        //    using var rnd = new RandomUtils.CryptoRandom();
+        //    for (var c = 0; c < count; c++)
+        //    {
+        //        BigInteger sum = 0;
 
-                var array = rnd.GetByteArray(size);
-                Assert.Equal(size,array.Length);
+        //        var array = rnd.GetByteArray(size);
+        //        Assert.Equal(size,array.Length);
 
-                for (var i = 0; i < size; i++)
-                {
-                    sum += array[i];
-                }
+        //        for (var i = 0; i < size; i++)
+        //        {
+        //            sum += array[i];
+        //        }
 
-                sum /= size;
+        //        sum /= size;
 
-                Assert.InRange((int)sum, 120,140);
-            }
-        }
+        //        Assert.InRange((int)sum, 120,140);
+        //    }
+        //}
 
 
         [Fact]

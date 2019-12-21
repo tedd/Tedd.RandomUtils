@@ -7,9 +7,9 @@ namespace Tedd.RandomUtils.Tests.ConcurrentRandom
 {
     public class ConcurrentRandomTest
     {
-        private int count = 100;
-        private int iterations = 100_000;
-        private float tolerance = 0.1f;
+        //private int count = 100;
+        //private int iterations = 100_000;
+        //private float tolerance = 0.1f;
 
 
         [Fact]

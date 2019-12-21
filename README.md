@@ -57,7 +57,6 @@ long   val8  = rnd.NextInt64();
 ulong  val9  = rnd.NextUInt64();
 float  val10 = rnd.NextFloat();
 string val11 = rnd.NextString("abcdefg", 8);
-byte[] val12 = rnd.GetByteArray(8);
 rnd.NextBytes(byteArray);
 ```
 
