@@ -115,13 +115,10 @@ RandomNumberGenerator gives you a bunch of random bytes. It's up to you to conve
 
 This is where MoreRandom comes in. CryptoRandom mimics System.Random and is a drop-in replacement. You get the power of RandomNumberGenerator with the ease of System.Random.
 
-## Compatibility
-Created using .Net Standard 1.3.
-
-## Unit testing
-xUnit in .Net Core with near 100% code coverage. Boundary checks as well as average check (for statistical distribution) on vast number of samples.
-
 # Remarks
 ## Vanilla System.Random vs this library
 Standard System.Random.Next() returns a positive integer, while all this library return full range of values for given datatype.
 Standard System.Random.Next(from, to) has "exclusive to" value, meaning it only returns 31 random bits in the 32-bit integer. This library returns random for all 32 and 64 bits on NextInt32(), NextUInt32, NextInt64() and NextUInt64() respectively.
+
+# Unit testing
+xUnit in .Net Core with near 100% code coverage. Boundary checks as well as average check (for statistical distribution) on large number of samples.
