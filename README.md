@@ -1,10 +1,13 @@
-# Extension methods
+# Library content
+## Extension methods
 Extension methods for System.Random that adds support for more datatypes.
-NextSByte(), NextByte(), NextInt16(), NextUInt16(), NextIn32(), NextUInt32(), NextInt64(), NextUInt64() and NextFloat().
+NextBoolean, NextSByte(), NextByte(), NextInt16(), NextUInt16(), NextIn32(), NextUInt32(), NextInt64(), NextUInt64(), NextFloat() and NextString().
 
-ConcurrentRandom provides a lock free thread safe way to access System.Random.
+## Thread safe random
+ConcurrentRandom provides a lock free thread safe static way to access System.Random. This is implemented by creating a new System.Random object per thread (ThreadLocal), seeded by a root random object protected by a spinlock.
 
-CryptoRandom provides 
+## Cryptographic Service Provider random
+CryptoRandom uses the operating systems underlying CSP (Cryptographic Service Provider) for better random data. See further down for explanation.
 
 # Examples
 
@@ -59,6 +62,8 @@ float  val10 = rnd.NextFloat();
 string val11 = rnd.NextString("abcdefg", 8);
 rnd.NextBytes(byteArray);
 ```
+
+
 
 # CryptoRandom
 Drop-in replacement for [System.Random](https://msdn.microsoft.com/en-us/library/system.random(v=vs.110).aspx) that gets more random data from Cryptographic Service Provider.
