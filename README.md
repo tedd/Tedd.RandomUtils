@@ -5,10 +5,10 @@ Available as NuGet package: https://www.nuget.org/packages/Tedd.RandomUtils
 All extension methods that are available for System.Random are also implemented for both ConcurrentRandom and CryptoRandom.
 
 ## System.Random Extension methods
-Extension methods for System.Random that adds support for more datatypes.
+Extension methods for System.Random that adds support for more datatypes.<br />
 NextBoolean, NextSByte(), NextByte(), NextInt16(), NextUInt16(), NextIn32(), NextUInt32(), NextInt64(), NextUInt64(), NextFloat() and NextString().
 
-## ConcurrentRandom:
+## ConcurrentRandom
 ConcurrentRandom provides a lock free thread safe static way to access System.Random. This is implemented by creating a new System.Random object per thread (ThreadLocal), seeded by a root random object protected by a spinlock.
 
 ## CryptoRandom
