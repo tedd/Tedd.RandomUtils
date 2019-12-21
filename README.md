@@ -77,30 +77,30 @@ Drop-in replacement for [System.Random](https://msdn.microsoft.com/en-us/library
 Works exactly like [System.Random](https://msdn.microsoft.com/en-us/library/system.random(v=vs.110).aspx), except you may want to dispose of it when you are done.
 (If you don't dispose of it, the destructor will do it for you upon garbage collect.)
 ```csharp
-	var rnd = new CryptoRandom();
-	var dice = rnd.Next(1, 7); // A random number between 1 and 6 inclusive
-	rnd.Dispose();
+var rnd = new CryptoRandom();
+var dice = rnd.Next(1, 7); // A random number between 1 and 6 inclusive
+rnd.Dispose();
 ```
 
 Or with using:
 ```csharp
-	using (var rnd = new CryptoRandom()) {
-		var percent = rnd.NextDouble() * 100;
-		Console.WriteLine($"You are {percent}% done, please wait...");
-	}
+using (var rnd = new CryptoRandom()) {
+	var percent = rnd.NextDouble() * 100;
+	Console.WriteLine($"You are {percent}% done, please wait...");
+}
 ```
 
 Note that it is recommended to create a shared Random object, and in case of multiple threads use synchronized access to generate random data.
 ```csharp
-	public static class Main {
-		public static CryptoRandom Rnd = new CryptoRandomRandom();
+public static class Main {
+	public static CryptoRandom Rnd = new CryptoRandomRandom();
 
-		public static void Start() {
-			int dice;
-			lock (Rnd)
-				dice = Rnd.Next(1, 7); // A random number between 1 and 6 inclusive
-		}
+	public static void Start() {
+		int dice;
+		lock (Rnd)
+			dice = Rnd.Next(1, 7); // A random number between 1 and 6 inclusive
 	}
+}
 ```
 
 ## Thread safety
