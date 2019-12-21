@@ -12,44 +12,53 @@ CryptoRandom provides
 ```csharp
 var rnd = new Random();
 
-sbyte val1 = rnd.NextSByte();
-byte val1 = rnd.NextByte();
-short val2 = rnd.NextInt16();
-ushort val3 = rnd.NextUInt16();
-int val4 = rnd.NextInt32();
-uint val5 = rnd.NextUInt32();
-long val6 = rnd.NextInt64();
-ulong val7 = rnd.NextUInt64();
-float val8 = rnd.NextFloat();
+bool   val1  = rnd.NextBoolean();
+sbyte  val2  = rnd.NextSByte();
+byte   val3  = rnd.NextByte();
+short  val4  = rnd.NextInt16();
+ushort val5  = rnd.NextUInt16();
+int    val6  = rnd.NextInt32();
+uint   val7  = rnd.NextUInt32();
+long   val8  = rnd.NextInt64();
+ulong  val9  = rnd.NextUInt64();
+float  val10 = rnd.NextFloat();
+string val11 = rnd.NextString("abcdefg", 8);
 ```
 
 ## Thread safe random
 Thread safe random without locking.
 ```csharp
-sbyte val1 = ConcurrentRandom.NextSByte();
-byte val1 = ConcurrentRandom.NextByte();
-short val2 = ConcurrentRandom.NextInt16();
-ushort val3 = ConcurrentRandom.NextUInt16();
-int val4 = ConcurrentRandom.NextInt32();
-uint val5 = ConcurrentRandom.NextUInt32();
-long val6 = ConcurrentRandom.NextInt64();
-ulong val7 = ConcurrentRandom.NextUInt64();
-float val8 = ConcurrentRandom.NextFloat();
+bool   val1  = ConcurrentRandom.NextBoolean();
+sbyte  val2  = ConcurrentRandom.NextSByte();
+byte   val3  = ConcurrentRandom.NextByte();
+short  val4  = ConcurrentRandom.NextInt16();
+ushort val5  = ConcurrentRandom.NextUInt16();
+int    val6  = ConcurrentRandom.NextInt32();
+uint   val7  = ConcurrentRandom.NextUInt32();
+long   val8  = ConcurrentRandom.NextInt64();
+ulong  val9  = ConcurrentRandom.NextUInt64();
+float  val10 = ConcurrentRandom.NextFloat();
+string val11 = ConcurrentRandom.NextString("abcdefg", 8);
+ConcurrentRandom.NextBytes(byteArray);
 ```
 
 ## Crypto strength random
 ```csharp
 using rnd = new CryptoRandom();
 
-sbyte val1 = rnd.NextSByte();
-byte val1 = rnd.NextByte();
-short val2 = rnd.NextInt16();
-ushort val3 = rnd.NextUInt16();
-int val4 = rnd.NextInt32();
-uint val5 = rnd.NextUInt32();
-long val6 = rnd.NextInt64();
-ulong val7 = rnd.NextUInt64();
-float val8 = rnd.NextFloat();
+bool   val1  = rnd.NextBoolean();
+sbyte  val2  = rnd.NextSByte();
+byte   val3  = rnd.NextByte();
+short  val4  = rnd.NextInt16();
+ushort val5  = rnd.NextUInt16();
+int    val6  = rnd.NextInt32();
+uint   val7  = rnd.NextUInt32();
+long   val8  = rnd.NextInt64();
+ulong  val9  = rnd.NextUInt64();
+float  val10 = rnd.NextFloat();
+string val11 = rnd.NextString("abcdefg", 8);
+byte[] val12 = rnd.GetByteArray(8);
+rnd.NextBytes(byteArray);
 ```
 
 # CryptoRandom
