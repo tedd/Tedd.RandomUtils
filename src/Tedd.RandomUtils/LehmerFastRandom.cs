@@ -8,7 +8,7 @@ namespace Tedd.RandomUtils
 {
     class LehmerFastRandom
     {
-        private UInt64 g_lehmer64_state;
+        private UInt64 g_lehmer64_state = ((UInt64)Environment.TickCount| (UInt64)(Environment.TickCount+10)<<32);
 
         private UInt32 NextUInt32()
         {
