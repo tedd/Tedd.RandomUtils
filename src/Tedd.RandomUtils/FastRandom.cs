@@ -13,11 +13,22 @@ namespace Tedd.RandomUtils
     /// </summary>
     public class FastRandom
     {
+        private ulong _seed = (UInt64) ((Int64) Environment.TickCount | (Int64) (Environment.TickCount + 10) << 32);
+
         /// <summary>
         /// Non-zero seed used for calculation. Changes for every calculation made.
         /// </summary>
         /// <remarks>Must never be set to zero.</remarks>
-        public UInt64 Seed = (UInt64)((Int64)Environment.TickCount | (Int64)(Environment.TickCount + 10) << 32);
+        public ulong Seed
+        {
+            get => _seed;
+            set
+            {
+                if (value == 0)
+                    throw new ArgumentOutOfRangeException("value", "Seed cannot be 0.");
+                _seed = value;
+            }
+        }
 
         private const UInt64 LehmerConst = 0xda942042e4dd58b5;
 

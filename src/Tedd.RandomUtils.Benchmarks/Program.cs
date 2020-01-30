@@ -15,7 +15,7 @@ namespace Tedd.RandomUtils.Benchmarks
 
                 speedTest.SystemRandom();
                 speedTest.LehmerNaive();
-                speedTest.LehmerStatic();
+                //speedTest.LehmerStatic();
                 speedTest.LehmerSIMD();
             }
 
@@ -26,7 +26,7 @@ namespace Tedd.RandomUtils.Benchmarks
 
                 speedTest.SystemRandom();
                 speedTest.LehmerNaive();
-                speedTest.LehmerStatic();
+                //speedTest.LehmerStatic();
                 speedTest.LehmerSIMD();
             }
 

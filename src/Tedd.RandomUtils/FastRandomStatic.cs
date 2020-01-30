@@ -4,16 +4,27 @@ using System.Runtime.CompilerServices;
 namespace Tedd.RandomUtils
 {
     /// <summary>
-    /// Lehmer random generator is over 3-4 times faster than System.Random and passes all the Dieharder tests of randomness.
-    /// Random is calculated by a single multiply and bitshift operation.
+    /// This random generator based on Lehmer is 3-4 times faster than System.Random and passes all the Dieharder tests of randomness.
+    /// FastRandomStatic is around 7% faster than instanced version.
     /// </summary>
     public class FastRandomStatic
     {
+        private static ulong _seed = (UInt64)((Int64)Environment.TickCount | (Int64)(Environment.TickCount + 10) << 32);
+
         /// <summary>
         /// Non-zero seed used for calculation. Changes for every calculation made.
         /// </summary>
         /// <remarks>Must never be set to zero.</remarks>
-        public static UInt64 Seed = (UInt64)((Int64)Environment.TickCount | (Int64)(Environment.TickCount + 10) << 32);
+        public static ulong Seed
+        {
+            get => _seed;
+            set
+            {
+                if (value == 0)
+                    throw new ArgumentOutOfRangeException("value", "Seed cannot be 0.");
+                _seed = value;
+            }
+        }
 
         private const UInt64 LehmerConst = 0xda942042e4dd58b5;
 

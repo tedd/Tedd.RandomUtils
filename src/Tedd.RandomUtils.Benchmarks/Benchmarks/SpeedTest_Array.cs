@@ -70,12 +70,12 @@ namespace Tedd.RandomUtils.Benchmarks.Benchmarks
         #endregion
         #region LehmerStatic
 
-        [Benchmark()]
-        public void LehmerStatic()
-        {
-            for (var n = 0; n < Iterations; n++)
-                FastRandomStatic.NextBytes(Result);
-        }
+        //[Benchmark()]
+        //public void LehmerStatic()
+        //{
+        //    for (var n = 0; n < Iterations; n++)
+        //        FastRandomStatic.NextBytes(Result);
+        //}
 
 
         #endregion
