@@ -11,4 +11,8 @@
     <PackageReference Include="BenchmarkDotNet.Toolchains.Roslyn" Version="0.10.14" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tedd.RandomUtils\Tedd.RandomUtils.csproj" />
+  </ItemGroup>
+
 </Project>

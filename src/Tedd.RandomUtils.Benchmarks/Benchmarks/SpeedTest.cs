@@ -9,8 +9,9 @@ namespace Tedd.RandomUtils.Benchmarks.Benchmarks
     public class SpeedTest
     {
         private Random _random;
-        private const int Iterations = 1_000_000;
+        private const int Iterations = 10_000_000;
         public long Result;
+        private FastRandom _fastRandom;
 
         [GlobalSetup]
         public void GlobalSetup()
@@ -26,6 +27,8 @@ namespace Tedd.RandomUtils.Benchmarks.Benchmarks
                 u[i] = v >> i;
             lehmer_simd_state = new Vector<UInt64>(new Span<UInt64>(u));
             _lehmerConst = new Vector<UInt64>(0xda942042e4dd58b5);
+
+            _fastRandom = new FastRandom();
         }
 
         [IterationSetup]
@@ -50,7 +53,7 @@ namespace Tedd.RandomUtils.Benchmarks.Benchmarks
         public void LehmerNaive()
         {
             for (var n = 0; n < Iterations; n++)
-                Result += LehmerNext();
+                Result += _fastRandom.NextInt32();
         }
 
         private UInt64 lehmer_state = ((UInt64)Environment.TickCount) | ((UInt64)(Environment.TickCount + 10) << 32);
@@ -77,18 +80,18 @@ namespace Tedd.RandomUtils.Benchmarks.Benchmarks
         private Vector<uint> _lehmer_simds;
         private int _vectorSize;
         private int _vectorNumber;
-
+        
         private UInt32 LehmerSIMDNext()
         {
-            TODO: Add test for byte array filling
+            //TODO: Add test for byte array filling
             if (_vectorNumber == _vectorSize)
             {
                 _vectorNumber = 0;
                 lehmer_simd_state = Vector.Multiply(lehmer_simd_state, _lehmerConst);
-                _lehmer_simds = Vector.AsVectorUInt32(lehmer_simd_state);
+                //_lehmer_simds = Vector.AsVectorUInt32(lehmer_simd_state);
             }
 
-            return (UInt32)(_lehmer_simds[_vectorNumber++]);
+            return (UInt32)(lehmer_simd_state[_vectorNumber++]>>32);
         }
         #endregion
     }
