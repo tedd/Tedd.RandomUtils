@@ -1,16 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 using BenchmarkDotNet.Attributes;
 
 namespace Tedd.RandomUtils.Benchmarks.Benchmarks
 {
     [Config(typeof(TestConfig))]
-    public class SpeedTest
+    public class SpeedTest_Array
     {
         private Random _random;
-        private const int Iterations = 10_000_000;
-        public long Result;
+        private const int Iterations = 10_000;
+        public byte[] Result = new byte[4096];
         private FastRandom _fastRandom;
 
         [GlobalSetup]
@@ -26,8 +27,10 @@ namespace Tedd.RandomUtils.Benchmarks.Benchmarks
             for (var i = 0; i < _vectorSize; i++)
                 u[i] = v >> i;
             lehmer_simd_state = new Vector<UInt64>(new Span<UInt64>(u));
-            _lehmerConst = new Vector<UInt64>(0xda942042e4dd58b5);
-
+            var c = new UInt64[_vectorSize];
+            for (var i = 0; i < _vectorSize; i++)
+                c[i] = 0xda942042e4dd58b5;
+            _lehmerConst = new Vector<UInt64>(c);
             _fastRandom = new FastRandom();
         }
 
@@ -42,7 +45,7 @@ namespace Tedd.RandomUtils.Benchmarks.Benchmarks
         public void SystemRandom()
         {
             for (var n = 0; n < Iterations; n++)
-                Result += _random.Next();
+                _random.NextBytes(Result);
         }
 
         #endregion
@@ -53,16 +56,27 @@ namespace Tedd.RandomUtils.Benchmarks.Benchmarks
         public void LehmerNaive()
         {
             for (var n = 0; n < Iterations; n++)
-                Result += _fastRandom.NextInt32();
+                _fastRandom.NextBytes(Result);
         }
 
-        private UInt64 lehmer_state = ((UInt64)Environment.TickCount) | ((UInt64)(Environment.TickCount + 10) << 32);
+        //private UInt64 lehmer_state = ((UInt64)Environment.TickCount) | ((UInt64)(Environment.TickCount + 10) << 32);
 
-        private Int32 LehmerNext()
+        //private Int32 LehmerNext()
+        //{
+        //    lehmer_state *= 0xda942042e4dd58b5;
+        //    return (Int32)(lehmer_state >> 32);
+        //}
+
+        #endregion
+        #region LehmerStatic
+
+        [Benchmark()]
+        public void LehmerStatic()
         {
-            lehmer_state *= 0xda942042e4dd58b5;
-            return (Int32)(lehmer_state >> 32);
+            for (var n = 0; n < Iterations; n++)
+                FastRandomStatic.NextBytes(Result);
         }
+
 
         #endregion
 
@@ -72,7 +86,7 @@ namespace Tedd.RandomUtils.Benchmarks.Benchmarks
         public void LehmerSIMD()
         {
             for (var n = 0; n < Iterations; n++)
-                Result += LehmerSIMDNext();
+                LehmerSIMDNext(Result);
         }
 
         private Vector<UInt64> lehmer_simd_state;
@@ -80,18 +94,20 @@ namespace Tedd.RandomUtils.Benchmarks.Benchmarks
         private Vector<uint> _lehmer_simds;
         private int _vectorSize;
         private int _vectorNumber;
-        
-        private UInt32 LehmerSIMDNext()
-        {
-            //TODO: Add test for byte array filling
-            if (_vectorNumber == _vectorSize)
-            {
-                _vectorNumber = 0;
-                lehmer_simd_state = Vector.Multiply(lehmer_simd_state, _lehmerConst);
-                //_lehmer_simds = Vector.AsVectorUInt32(lehmer_simd_state);
-            }
 
-            return (UInt32)(lehmer_simd_state[_vectorNumber++]>>32);
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void LehmerSIMDNext(byte[] array)
+        {
+            for (var i = 0; i < array.Length; i++) {
+
+                if (_vectorNumber == _vectorSize)
+                {
+                    _vectorNumber = 0;
+                    lehmer_simd_state = Vector.Multiply(lehmer_simd_state, _lehmerConst);
+                    //_lehmer_simds = Vector.AsVectorUInt32(lehmer_simd_state);
+                }
+                array[i] = (Byte)(lehmer_simd_state[_vectorNumber++] >> 32);
+            }
         }
         #endregion
     }

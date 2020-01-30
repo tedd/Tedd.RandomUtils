@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tedd.RandomUtils
 {
@@ -11,13 +7,13 @@ namespace Tedd.RandomUtils
     /// Lehmer random generator is over 3-4 times faster than System.Random and passes all the Dieharder tests of randomness.
     /// Random is calculated by a single multiply and bitshift operation.
     /// </summary>
-    public class FastRandom
+    public class FastRandomStatic
     {
         /// <summary>
         /// Non-zero seed used for calculation. Changes for every calculation made.
         /// </summary>
         /// <remarks>Must never be set to zero.</remarks>
-        public UInt64 Seed = (UInt64)((Int64)Environment.TickCount | (Int64)(Environment.TickCount + 10) << 32);
+        public static UInt64 Seed = (UInt64)((Int64)Environment.TickCount | (Int64)(Environment.TickCount + 10) << 32);
 
         private const UInt64 LehmerConst = 0xda942042e4dd58b5;
 
@@ -26,7 +22,7 @@ namespace Tedd.RandomUtils
         /// </summary>
         /// <returns>Random number from -2_147_483_648 to 2_147_483_647 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public UInt32 NextUInt32()
+        public static UInt32 NextUInt32()
         {
             Seed *= LehmerConst;
             return (UInt32)(Seed >> 32);
@@ -37,7 +33,7 @@ namespace Tedd.RandomUtils
         /// </summary>
         /// <returns>Random number from 0 to 4_294_967_295 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Int32 NextInt32()
+        public static Int32 NextInt32()
         {
             Seed *= LehmerConst;
             return (Int32)(Seed >> 32);
@@ -48,53 +44,53 @@ namespace Tedd.RandomUtils
         /// </summary>
         /// <returns>Random number from -9_223_372_036_854_775_808 to 9_223_372_036_854_775_807 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Int64 NextInt64() => (Int64)((Int64)NextInt32() | (((Int64)NextInt32()) << 32));
+        public static Int64 NextInt64() => (Int64)((Int64)NextInt32() | (((Int64)NextInt32()) << 32));
 
         /// <summary>
         /// Gets random value from inclusive UInt64.MinValue to inclusive UInt64.MaxValue.
         /// </summary>
         /// <returns>Random number from 0 to 18_446_744_073_709_551_615 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public UInt64 NextUInt64() => (UInt64)((UInt64)NextUInt32() | ((UInt64)NextUInt32() << 32));
+        public static UInt64 NextUInt64() => (UInt64)((UInt64)NextUInt32() | ((UInt64)NextUInt32() << 32));
 
         /// <summary>
         /// Gets random value from inclusive SByte.MinValue to inclusive SByte.MaxValue.
         /// </summary>
         /// <returns>Random number from -128 to 127 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public SByte NextSByte() => (SByte)NextInt32();
+        public static SByte NextSByte() => (SByte)NextInt32();
 
         /// <summary>
         /// Gets random value from inclusive Byte.MinValue to inclusive Byte.MaxValue.
         /// </summary>
         /// <returns>Random number from 0 to 255 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Byte NextByte() => (Byte)NextInt32();
+        public static Byte NextByte() => (Byte)NextInt32();
 
         /// <summary>
         /// Gets random value from inclusive Int16.MinValue to inclusive Int16.MaxValue.
         /// </summary>
         /// <returns>Random number from -32_768 to 32_767 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Int16 NextInt16() => (Int16)NextInt32();
+        public static Int16 NextInt16() => (Int16)NextInt32();
 
         /// <summary>
         /// Gets random value from inclusive UInt16.MinValue to inclusive UInt16.MaxValue.
         /// </summary>
         /// <returns>Random number from 0 to 65_535 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public UInt16 NextUInt16() => (UInt16)NextInt32();
+        public static UInt16 NextUInt16() => (UInt16)NextInt32();
 
         /// <summary>
         /// Fills the elements of a specified array of bytes with random numbers.
         /// </summary>
         /// <param name="buffer">An array of bytes to contain random numbers.</param>
-        public void NextBytes(byte[] buffer)
+        public static void NextBytes(byte[] buffer)
         {
             for (var i = 0; i < buffer.Length; i++)
             {
                 Seed *= LehmerConst;
-                buffer[i]= (Byte)(Seed >> 32);
+                buffer[i] = (Byte)(Seed >> 32);
             }
         }
 
@@ -103,7 +99,7 @@ namespace Tedd.RandomUtils
         /// Fills the elements of a specified array of bytes with random numbers.
         /// </summary>
         /// <param name="buffer">An array of bytes to contain random numbers.</param>
-        public void NextBytes(Span<byte> buffer)
+        public static void NextBytes(Span<byte> buffer)
         {
              for (var i = 0; i < result.Length; i++)
             {
@@ -119,16 +115,16 @@ namespace Tedd.RandomUtils
         /// <param name="trueProbability">A probability of <see langword="true"/> result (should be between 0.0 and 1.0).</param>
         /// <returns>Random true or false.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool NextBoolean(double trueProbability = 0.5D) => trueProbability >= 0.0D && trueProbability <= 1.0D ?
+        public static bool NextBoolean(double trueProbability = 0.5D) => trueProbability >= 0.0D && trueProbability <= 1.0D ?
             NextDouble() >= 1.0D - trueProbability :
             throw new ArgumentOutOfRangeException(nameof(trueProbability));
         /// <summary>
         /// Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.
         /// </summary>
         /// <returns>A double-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
-        public double NextDouble()
+        public static double NextDouble()
         {
-            double d;            
+            double d;
             do
             {
                 var i = NextUInt64();
@@ -145,14 +141,14 @@ namespace Tedd.RandomUtils
         /// </summary>
         /// <returns>Random number between 0 and 1.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public float NextFloat() => (float)NextDouble();
+        public static float NextFloat() => (float)NextDouble();
 
         /// <summary>
         /// Returns a non-negative random integer.
         /// </summary>
         /// <returns>A 32-bit signed integer that is greater than or equal to 0 and less than MaxValue.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int Next()
+        public static int Next()
         {
             return Next(0, int.MaxValue);
         }
@@ -164,7 +160,7 @@ namespace Tedd.RandomUtils
         /// <returns>A 32-bit signed integer that is greater than or equal to 0, and less than <paramref name="maxValue"/>; that is, the range of return values ordinarily includes 0 but not <paramref name="maxValue"/>. However, if <paramref name="maxValue"/> equals 0, <paramref name="maxValue"/> is returned.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="maxValue"/> is less than 0.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int Next(int maxValue)
+        public static int Next(int maxValue)
         {
             if (maxValue < 0)
                 throw new ArgumentOutOfRangeException("maxValue is less than 0.");
@@ -179,7 +175,7 @@ namespace Tedd.RandomUtils
         /// <param name="maxValue">The exclusive upper bound of the random number to be generated. maxValue must be greater than or equal to 0.</param>
         /// <returns>A 32-bit signed integer greater than or equal to <paramref name="minValue"/> and less than <paramref name="maxValue"/>; that is, the range of return values includes <paramref name="minValue"/> but not <paramref name="maxValue"/>. If <paramref name="minValue"/> equals <paramref name="maxValue"/>, <paramref name="minValue"/> is returned.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="minValue"/> is greater than <paramref name="maxValue"/>.</exception>
-        public int Next(int minValue, int maxValue)
+        public static int Next(int minValue, int maxValue)
         {
             if (maxValue < minValue)
                 throw new ArgumentOutOfRangeException("minValue is greater than maxValue.");
@@ -212,7 +208,7 @@ namespace Tedd.RandomUtils
         /// <param name="length">The length of the random string.</param>
         /// <returns>Randomly generated string.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
-        public string NextString(ReadOnlySpan<char> allowedChars, int length)
+        public static string NextString(ReadOnlySpan<char> allowedChars, int length)
         {
             if (length < 0)
                 throw new ArgumentOutOfRangeException(nameof(length));
@@ -233,7 +229,7 @@ namespace Tedd.RandomUtils
         /// <returns>Randomly generated string.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string NextString(char[] allowedChars, int length)
+        public static string NextString(char[] allowedChars, int length)
             => NextString(new ReadOnlySpan<char>(allowedChars), length);
 
         /// <summary>
@@ -244,7 +240,7 @@ namespace Tedd.RandomUtils
         /// <returns>Randomly generated string.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public string NextString(string allowedChars, int length)
+        public static string NextString(string allowedChars, int length)
             => NextString(allowedChars.AsSpan(), length);
 #endif
         #endregion

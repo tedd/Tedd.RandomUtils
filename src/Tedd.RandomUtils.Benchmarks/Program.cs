@@ -8,15 +8,31 @@ namespace Tedd.RandomUtils.Benchmarks
     {
         static void Main(string[] args)
         {
-            var speedTest = new SpeedTest();
-            speedTest.GlobalSetup();
-            speedTest.IterationSetup();
-            speedTest.SystemRandom();
-            speedTest.LehmerNaive();
+            {
+                var speedTest = new SpeedTest_Single();
+                speedTest.GlobalSetup();
+                speedTest.IterationSetup();
+
+                speedTest.SystemRandom();
+                speedTest.LehmerNaive();
+                speedTest.LehmerStatic();
+                speedTest.LehmerSIMD();
+            }
+
+            {
+                var speedTest = new SpeedTest_Array();
+                speedTest.GlobalSetup();
+                speedTest.IterationSetup();
+
+                speedTest.SystemRandom();
+                speedTest.LehmerNaive();
+                speedTest.LehmerStatic();
+                speedTest.LehmerSIMD();
+            }
 
 
-
-            var summary1 = BenchmarkRunner.Run<SpeedTest>();
+            var summary1 = BenchmarkRunner.Run<SpeedTest_Single>();
+            var summary2 = BenchmarkRunner.Run<SpeedTest_Array>();
         }
     }
 }
