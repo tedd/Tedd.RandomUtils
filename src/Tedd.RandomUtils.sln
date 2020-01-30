@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tedd.RandomUtils", "Tedd.RandomUtils\Tedd.RandomUtils.csproj", "{5816102C-9D94-49B2-AA0A-86FA0057ADE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils", "Tedd.RandomUtils\Tedd.RandomUtils.csproj", "{5816102C-9D94-49B2-AA0A-86FA0057ADE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tedd.RandomUtils.Tests", "Tedd.RandomUtils.Tests\Tedd.RandomUtils.Tests.csproj", "{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils.Tests", "Tedd.RandomUtils.Tests\Tedd.RandomUtils.Tests.csproj", "{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tedd.RandomUtils.Benchmarks", "Tedd.RandomUtils.Benchmarks\Tedd.RandomUtils.Benchmarks.csproj", "{538B0D51-1053-4B1D-9C00-2C0465361ED8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{538B0D51-1053-4B1D-9C00-2C0465361ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{538B0D51-1053-4B1D-9C00-2C0465361ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{538B0D51-1053-4B1D-9C00-2C0465361ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{538B0D51-1053-4B1D-9C00-2C0465361ED8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

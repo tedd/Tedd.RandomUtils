@@ -25,7 +25,7 @@ namespace Tedd.RandomUtils
             g_lehmer64_state *= 0xda942042e4dd58b5;
             return (UInt64) g_lehmer64_state;
         }
-        Make this use vectors and calculate x number ahead
-            also make benchmarks DateTimeOffset test
+        //Make this use vectors and calculate x number ahead
+            //also make benchmarks DateTimeOffset test
     }
 }
