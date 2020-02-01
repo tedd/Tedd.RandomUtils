@@ -9,10 +9,14 @@ Extension methods for System.Random that adds support for more datatypes.<br />
 NextBoolean, NextSByte(), NextByte(), NextInt16(), NextUInt16(), NextIn32(), NextUInt32(), NextInt64(), NextUInt64(), NextFloat() and NextString().
 
 ## ConcurrentRandom
-ConcurrentRandom provides a lock free thread safe static way to access System.Random. This is implemented by creating a new System.Random object per thread (ThreadLocal), seeded by a root random object protected by a spinlock.
+ConcurrentRandom provides a thread safe static way to access System.Random by using SpinLock. (This replaces older version that was based on a slower implementation using ThreadLocal as benchmarks.)
 
 ## CryptoRandom
 CryptoRandom uses the operating systems underlying CSP (Cryptographic Service Provider) for better random data. See further down for explanation.
+
+## FastRandom
+FastRandom uses a variant of [Lehmer](https://en.wikipedia.org/wiki/Lehmer_random_number_generator) to quickly calculate pseudorandom numbers. This is achieved by multiplying the seed with a large prime. The resulting number is both the new random number and the new seed used for next random number. The output of this implementation has been tested and passes all [Dieharder](https://webhome.phy.duke.edu/~rgb/General/dieharder.php) tests of randomness.
+Note that seed 0 will cause exception.
 
 # Examples
 
@@ -53,6 +57,24 @@ ConcurrentRandom.NextBytes(byteArray);
 ## Crypto strength random
 ```csharp
 using rnd = new CryptoRandom();
+
+bool   val1  = rnd.NextBoolean();
+sbyte  val2  = rnd.NextSByte();
+byte   val3  = rnd.NextByte();
+short  val4  = rnd.NextInt16();
+ushort val5  = rnd.NextUInt16();
+int    val6  = rnd.NextInt32();
+uint   val7  = rnd.NextUInt32();
+long   val8  = rnd.NextInt64();
+ulong  val9  = rnd.NextUInt64();
+float  val10 = rnd.NextFloat();
+string val11 = rnd.NextString("abcdefg", 8);
+rnd.NextBytes(byteArray);
+```
+
+## Fast random
+```csharp
+using rnd = new FastRandom();
 
 bool   val1  = rnd.NextBoolean();
 sbyte  val2  = rnd.NextSByte();
@@ -122,3 +144,27 @@ Standard System.Random.Next(from, to) has "exclusive to" value, meaning it only 
 
 # Unit testing
 xUnit in .Net Core with near 100% code coverage. Boundary checks as well as average check (for statistical distribution) on large number of samples.
+
+# Benchmarks
+Each execution is *1.000.000 calculation* of random + loop overhead. So 2.381 ms / 1M is 0.002381 ms per calculation = 2.381 us (microseconds). In case of FastRandom the loop overhead may account for around 50% of the time.
+
+``` ini
+
+BenchmarkDotNet=v0.12.0, OS=Windows 10.0.18363
+AMD Ryzen 9 3950X, 1 CPU, 32 logical and 16 physical cores
+.NET Core SDK=3.1.101
+  [Host]                : .NET Core 3.1.1 (CoreCLR 4.700.19.60701, CoreFX 4.700.19.60801), X64 RyuJIT
+  x64 .Net Core 3.1 Ryu : .NET Core 3.1.1 (CoreCLR 4.700.19.60701, CoreFX 4.700.19.60801), X64 RyuJIT
+
+Job=x64 .Net Core 3.1 Ryu  Jit=RyuJit  Platform=X64  
+Runtime=.NET Core 3.1  Force=True  InvocationCount=1  
+IterationCount=100  LaunchCount=1  UnrollFactor=1  
+WarmupCount=15  
+
+```
+|                      Method |      Mean |     Error |    StdDev |    Median |       Min |       Max |       P95 |       P90 | Iterations |   Op/s | Ratio | RatioSD | Baseline | Gen 0 | Gen 1 | Gen 2 | Allocated | TotalIssues/Op | BranchInstructions/Op | BranchMispredictions/Op |
+|---------------------------- |----------:|----------:|----------:|----------:|----------:|----------:|----------:|----------:|-----------:|-------:|------:|--------:|--------- |------:|------:|------:|----------:|---------------:|----------------------:|------------------------:|
+|                  FastRandom |  2.381 ms | 0.0019 ms | 0.0055 ms |  2.380 ms |  2.372 ms |  2.394 ms |  2.392 ms |  2.387 ms |      95.00 | 420.08 |  0.32 |    0.00 |       No |     - |     - |     - |         - |      4,081,116 |             1,053,191 |                  31,383 |
+|                SystemRandom |  7.331 ms | 0.0048 ms | 0.0125 ms |  7.330 ms |  7.312 ms |  7.373 ms |  7.350 ms |  7.348 ms |      78.00 | 136.41 |  1.00 |    0.00 |      Yes |     - |     - |     - |         - |     17,775,692 |             5,953,001 |                 353,063 |
+|                CryptoRandom |  7.486 ms | 0.0042 ms | 0.0108 ms |  7.485 ms |  7.467 ms |  7.526 ms |  7.506 ms |  7.499 ms |      77.00 | 133.58 |  1.02 |    0.00 |       No |     - |     - |     - |         - |     17,813,788 |             5,968,906 |                 354,385 |
+|            ConcurrentRandom | 30.236 ms | 0.0179 ms | 0.0529 ms | 30.218 ms | 30.161 ms | 30.390 ms | 30.355 ms | 30.303 ms |     100.00 |  33.07 |  4.12 |    0.01 |       No |     - |     - |     - |         - |     66,216,751 |            22,077,440 |               1,261,947 |

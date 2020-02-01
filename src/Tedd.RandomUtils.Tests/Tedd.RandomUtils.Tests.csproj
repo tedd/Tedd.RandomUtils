@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Tedd.RandomUtils.Benchmarks\Tedd.RandomUtils.Benchmarks.csproj" />
     <ProjectReference Include="..\Tedd.RandomUtils\Tedd.RandomUtils.csproj" />
   </ItemGroup>
 

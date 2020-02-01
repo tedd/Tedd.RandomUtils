@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Tedd.RandomUtils.Tests.ConcurrentRandom
 {
-    public class ConcurrentRandomTest
+    public class ConcurrentRandomThreadLocalTest
     {
         //private int count = 100;
         //private int iterations = 100_000;
@@ -36,7 +36,7 @@ namespace Tedd.RandomUtils.Tests.ConcurrentRandom
 
 
             // Trickery: We replace the original Random used to create Random objects with one we control the seed of.
-            var field = typeof(RandomUtils.ConcurrentRandom).GetField("Random", BindingFlags.Static | BindingFlags.NonPublic);
+            var field = typeof(RandomUtils.ConcurrentRandomThreadLocal).GetField("Random", BindingFlags.Static | BindingFlags.NonPublic);
             field.SetValue(null, new Random(seed));
 
             var threads = new Thread[threadCount];
@@ -69,7 +69,7 @@ namespace Tedd.RandomUtils.Tests.ConcurrentRandom
 
         private void ThreadRandomLoop(int[] threadData, ref bool started)
         {
-            var instance = RandomUtils.ConcurrentRandom.GetUnsafeInstance();
+            var instance = RandomUtils.ConcurrentRandomThreadLocal.GetUnsafeInstance();
             started = true;
             for (var i = 0; i < threadData.Length; i++)
             {

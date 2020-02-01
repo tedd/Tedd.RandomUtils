@@ -12,39 +12,30 @@ namespace Tedd.RandomUtils
     {
         private static readonly SpinLock SpinLock = new SpinLock(false);
         private static readonly Random Random = new Random();
-        private static readonly ThreadLocal<Random> ThreadRandom = new ThreadLocal<Random>(CreateRandom);
+     
+        #region Standard Random methods
 
-        private static Random CreateRandom()
+        /// <summary>
+        /// Returns a non-negative random integer.
+        /// </summary>
+        /// <returns>A 32-bit signed integer that is greater than or equal to 0 and less than <see cref="Int32.MaxValue"/>.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Next()
         {
-            // Default seed is time. If we simply created all Random objects on first access with default seed then many threads accessing random object at the same time would end up with the same sequence of randomness.
-            // Therefore we need to randomize the seed. To do that we have another static Random, and we lock to access it. SpinLock is faster than lock().
             var l = false;
             try
             {
                 SpinLock.Enter(ref l);
-                return new Random(Random.NextInt32());
+                return Random.Next();
             }
             finally
             {
                 if (l)
                     SpinLock.Exit();
             }
+
         }
 
-        /// <summary>
-        /// Gets the System.Random object for current thread.
-        /// </summary>
-        /// <remarks>Use of this object is not thread safe. Use only within current thread!</remarks>
-        /// <returns>Random object associated with current thread.</returns>
-        public static Random GetUnsafeInstance() => ThreadRandom.Value;
-
-        #region Standard Random methods
-        /// <summary>
-        /// Returns a non-negative random integer.
-        /// </summary>
-        /// <returns>A 32-bit signed integer that is greater than or equal to 0 and less than <see cref="Int32.MaxValue"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Next() => ThreadRandom.Value.Next();
         /// <summary>
         /// Returns a non-negative random integer that is less than the specified maximum.
         /// </summary>
@@ -52,7 +43,21 @@ namespace Tedd.RandomUtils
         /// <returns>A 32-bit signed integer that is greater than or equal to 0, and less than maxValue; that is, the range of return values ordinarily includes 0 but not maxValue. However, if maxValue equals 0, maxValue is returned.</returns>
         /// <exception cref="ArgumentOutOfRangeException">maxValue is less than 0.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Next(int maxValue) => ThreadRandom.Value.Next(maxValue);
+        public static int Next(int maxValue)
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.Next(maxValue);
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
         /// <summary>
         /// Returns a random integer that is within a specified range.
         /// </summary>
@@ -61,14 +66,42 @@ namespace Tedd.RandomUtils
         /// <returns>A 32-bit signed integer greater than or equal to minValue and less than maxValue; that is, the range of return values includes minValue but not maxValue. If minValue equals maxValue, minValue is returned.</returns>
         /// <exception cref="ArgumentOutOfRangeException">minValue is greater than maxValue.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Next(int minValue, int maxValue) => ThreadRandom.Value.Next(minValue, maxValue);
+        public static int Next(int minValue, int maxValue)
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.Next(minValue, maxValue);
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
         /// <summary>
         /// Fills the elements of a specified array of bytes with random numbers.
         /// </summary>
         /// <param name="buffer">The array to be filled with random numbers.</param>
         /// <exception cref="ArgumentNullException">buffer is null.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NextBytes(byte[] buffer) => ThreadRandom.Value.NextBytes(buffer);
+        public static void NextBytes(byte[] buffer)
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                Random.NextBytes(buffer);
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
 #if NETCOREAPP3
         /// <summary>
@@ -85,13 +118,41 @@ namespace Tedd.RandomUtils
         /// </summary>
         /// <returns>A double-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Double NextDouble() => ThreadRandom.Value.NextDouble();
+        public static Double NextDouble()
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextDouble();
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
         /// <summary>
         /// Returns a random floating-point number between 0.0 and 1.0.
         /// </summary>
         /// <returns>A double-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Double Sample() => ThreadRandom.Value.NextDouble();
+        public static Double Sample()
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextDouble();
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         #endregion
 
@@ -103,14 +164,42 @@ namespace Tedd.RandomUtils
         /// <param name="trueProbability">A probability of <see langword="true"/> result (should be between 0.0 and 1.0).</param>
         /// <returns>Random true or false.</returns>1
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool NextBoolean(double trueProbability = 0.5D) => ThreadRandom.Value.NextBoolean(trueProbability);
+        public static bool NextBoolean(double trueProbability = 0.5D)
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextBoolean(trueProbability);
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         /// <summary>
         /// Gets random value from between 0 and 1.
         /// </summary>
         /// <returns>Random number between 0 and 1.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float NextFloat() => ThreadRandom.Value.NextFloat();
+        public static float NextFloat()
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextFloat();
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         /// <summary>
         /// Gets random value from inclusive SByte.MinValue to inclusive SByte.MaxValue.
@@ -118,14 +207,42 @@ namespace Tedd.RandomUtils
         /// <returns>Random number from -128 to 127 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 
-        public static SByte NextSByte() => ThreadRandom.Value.NextSByte();
+        public static SByte NextSByte()
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextSByte();
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         /// <summary>
         /// Gets random value from inclusive Byte.MinValue to inclusive Byte.MaxValue.
         /// </summary>
         /// <returns>Random number from 0 to 255 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Byte NextByte() => ThreadRandom.Value.NextByte();
+        public static Byte NextByte()
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextByte();
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         /// <summary>
         /// Gets random value from inclusive Int16.MinValue to inclusive Int16.MaxValue.
@@ -133,14 +250,42 @@ namespace Tedd.RandomUtils
         /// </summary>
         /// <returns>Random number from -32_768 to 32_767 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Int16 NextInt16() => ThreadRandom.Value.NextInt16();
+        public static Int16 NextInt16()
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextInt16();
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         /// <summary>
         /// Gets random value from inclusive UInt16.MinValue to inclusive UInt16.MaxValue.
         /// </summary>
         /// <returns>Random number from 0 to 65_535 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UInt16 NextUInt16() => ThreadRandom.Value.NextUInt16();
+        public static UInt16 NextUInt16()
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextUInt16();
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         /// <summary>
         /// Gets random value from inclusive Int32.MinValue to inclusive Int32.MaxValue.
@@ -149,28 +294,84 @@ namespace Tedd.RandomUtils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         // Due to second param being "exclusive" the max value can never be reached
         // We solve by removing the value there and or'ing in another random value where we pick only that one bit
-        public static Int32 NextInt32() => ThreadRandom.Value.NextInt32();
+        public static Int32 NextInt32()
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextInt32();
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         /// <summary>
         /// Gets random value from inclusive UInt32.MinValue to inclusive UInt32.MaxValue.
         /// </summary>
         /// <returns>Random number from 0 to 4_294_967_295 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UInt32 NextUInt32() => ThreadRandom.Value.NextUInt32();
+        public static UInt32 NextUInt32()
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextUInt32();
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         /// <summary>
         /// Gets random value from inclusive Int64.MinValue to inclusive Int64.MaxValue.
         /// </summary>
         /// <returns>Random number from -9_223_372_036_854_775_808 to 9_223_372_036_854_775_807 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Int64 NextInt64() => ThreadRandom.Value.NextInt64();
+        public static Int64 NextInt64()
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextInt64();
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         /// <summary>
         /// Gets random value from inclusive UInt64.MinValue to inclusive UInt64.MaxValue.
         /// </summary>
         /// <returns>Random number from 0 to 18_446_744_073_709_551_615 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static UInt64 NextUInt64() => ThreadRandom.Value.NextUInt64();
+        public static UInt64 NextUInt64()
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextUInt64();
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         #region String
 
@@ -186,7 +387,20 @@ namespace Tedd.RandomUtils
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string NextString(ReadOnlySpan<char> allowedChars, int length)
-            => ThreadRandom.Value.NextString(allowedChars, length);
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextString(allowedChars, length);
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         /// <summary>
         /// Generates random string of the given length.
@@ -197,7 +411,20 @@ namespace Tedd.RandomUtils
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string NextString(char[] allowedChars, int length)
-            => ThreadRandom.Value.NextString(new ReadOnlySpan<char>(allowedChars), length);
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextString(new ReadOnlySpan<char>(allowedChars), length);
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 
         /// <summary>
         /// Generates random string of the given length.
@@ -208,7 +435,20 @@ namespace Tedd.RandomUtils
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="length"/> is less than zero.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string NextString(string allowedChars, int length)
-            => ThreadRandom.Value.NextString(allowedChars.AsSpan(), length);
+        {
+            var l = false;
+            try
+            {
+                SpinLock.Enter(ref l);
+                return Random.NextString(allowedChars.AsSpan(), length);
+            }
+            finally
+            {
+                if (l)
+                    SpinLock.Exit();
+            }
+
+        }
 #endif
         #endregion
     }

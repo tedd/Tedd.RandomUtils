@@ -11,24 +11,44 @@ namespace Tedd.RandomUtils
     /// Lehmer random generator is over 3-4 times faster than System.Random and passes all the Dieharder tests of randomness.
     /// Random is calculated by a single multiply and bitshift operation.
     /// </summary>
-    public class FastRandom
+    public sealed class FastRandom
     {
-        private ulong _seed = (UInt64) ((Int64) Environment.TickCount | (Int64) (Environment.TickCount + 10) << 32);
+        private ulong _seed;
 
         /// <summary>
-        /// Non-zero seed used for calculation. Changes for every calculation made.
+        /// Create a new instance with a variant of TickCount as seed.
         /// </summary>
-        /// <remarks>Must never be set to zero.</remarks>
-        public ulong Seed
+        public FastRandom()
         {
-            get => _seed;
-            set
-            {
-                if (value == 0)
-                    throw new ArgumentOutOfRangeException("value", "Seed cannot be 0.");
-                _seed = value;
-            }
+            _seed = (UInt64)((Int64)Environment.TickCount | (Int64)(Environment.TickCount + 10) << 32);
         }
+
+        /// <summary>
+        /// Create a new instance with custom seed.
+        /// NOTE: Seed can not be 0.
+        /// </summary>
+        /// <param name="seed"></param>
+        public FastRandom(UInt64 seed)
+        {
+            if (seed == 0)
+                throw new ArgumentOutOfRangeException(nameof(seed), "Seed cannot be 0.");
+            _seed = seed;
+        }
+
+        ///// <summary>
+        ///// Non-zero seed used for calculation. Changes for every calculation made.
+        ///// </summary>
+        ///// <remarks>Must never be set to zero.</remarks>
+        //public ulong Seed
+        //{
+        //    get => _seed;
+        //    set
+        //    {
+        //        if (value == 0)
+        //            throw new ArgumentOutOfRangeException("value", "Seed cannot be 0.");
+        //        _seed = value;
+        //    }
+        //}
 
         private const UInt64 LehmerConst = 0xda942042e4dd58b5;
 
@@ -39,8 +59,8 @@ namespace Tedd.RandomUtils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt32 NextUInt32()
         {
-            Seed *= LehmerConst;
-            return (UInt32)(Seed >> 32);
+            _seed *= LehmerConst;
+            return (UInt32)(_seed >> 32);
         }
 
         /// <summary>
@@ -50,8 +70,8 @@ namespace Tedd.RandomUtils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Int32 NextInt32()
         {
-            Seed *= LehmerConst;
-            return (Int32)(Seed >> 32);
+            _seed *= LehmerConst;
+            return (Int32)(_seed >> 32);
         }
 
         /// <summary>
@@ -104,8 +124,8 @@ namespace Tedd.RandomUtils
         {
             for (var i = 0; i < buffer.Length; i++)
             {
-                Seed *= LehmerConst;
-                buffer[i]= (Byte)(Seed >> 32);
+                _seed *= LehmerConst;
+                buffer[i] = (Byte)(_seed >> 32);
             }
         }
 
@@ -118,8 +138,8 @@ namespace Tedd.RandomUtils
         {
              for (var i = 0; i < result.Length; i++)
             {
-                Seed *= LehmerConst;
-                buffer[i]= (Byte)(Seed >> 32);
+                _seed *= LehmerConst;
+                buffer[i]= (Byte)(_seed >> 32);
             }
         }
 #endif
@@ -139,7 +159,7 @@ namespace Tedd.RandomUtils
         /// <returns>A double-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
         public double NextDouble()
         {
-            double d;            
+            double d;
             do
             {
                 var i = NextUInt64();

@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 namespace Tedd.RandomUtils
 {
-    public class CryptoRandom : IDisposable
+    public sealed class CryptoRandom : IDisposable
     {
         private ArrayPool<byte> _arrayPool = ArrayPool<byte>.Shared;
         private readonly RandomNumberGenerator _rng;
