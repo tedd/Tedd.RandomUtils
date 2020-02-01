@@ -15,7 +15,7 @@ namespace Tedd.RandomUtils.Benchmarks
 
                 speedTest.SystemRandom();
                 speedTest.LehmerNaive();
-                //speedTest.LehmerStatic();
+                speedTest.LehmerStatic();
                 speedTest.LehmerSIMD();
             }
 
@@ -30,9 +30,23 @@ namespace Tedd.RandomUtils.Benchmarks
                 speedTest.LehmerSIMD();
             }
 
+            {
+                var speedTest = new SpeedTest_All();
+                speedTest.GlobalSetup();
+                speedTest.IterationSetup();
 
-            var summary1 = BenchmarkRunner.Run<SpeedTest_Single>();
-            var summary2 = BenchmarkRunner.Run<SpeedTest_Array>();
+                speedTest.SystemRandom();
+                speedTest.CryptoRandom();
+                speedTest.FastRandom();
+                speedTest.FastRandomStatic();
+
+                speedTest.GlobalCleanup();
+            }
+
+
+            //var summary1 = BenchmarkRunner.Run<SpeedTest_Single>();
+            //var summary2 = BenchmarkRunner.Run<SpeedTest_Array>();
+            var summary3 = BenchmarkRunner.Run<SpeedTest_All>();
         }
     }
 }
