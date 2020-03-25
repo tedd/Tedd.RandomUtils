@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace Tedd.RandomUtils
 {
-    public static class ConcurrentRandom
+    public static class ConcurrentCryptoRandom
     {
         private static readonly SpinLock SpinLock = new SpinLock(false);
-        private static readonly Random Random = new Random();
-     
+        private static readonly CryptoRandom Random = new CryptoRandom();
+
         #region Standard Random methods
 
         /// <summary>

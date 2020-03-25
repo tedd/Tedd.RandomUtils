@@ -11,6 +11,7 @@ namespace Tedd.RandomUtils.Tests.FastRandom
         [InlineData(0, 4)]
         [InlineData(10, 21)]
         [InlineData(-10223, 165373)]
+        [InlineData(Int32.MinValue, 100_000)]
         [Theory]
         public void Next_min_max(int min, int max)
         {

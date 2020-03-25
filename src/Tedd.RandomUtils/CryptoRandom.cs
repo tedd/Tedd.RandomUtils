@@ -56,11 +56,11 @@ namespace Tedd.RandomUtils
 
             // Do
             var result = _arrayPool.Rent(4);
-            var diff = maxValue - minValue;
+            var diff = Math.Abs(maxValue - minValue);
             int val;
             do
             {
-                _rng.GetBytes(result);
+                _rng.GetBytes(result,0,4);
                 uint i = (uint)(
                     (result[0] << 8 * 3)
                     | (result[1] << 8 * 2)
@@ -117,7 +117,7 @@ namespace Tedd.RandomUtils
 
             do
             {
-                _rng.GetBytes(result);
+                _rng.GetBytes(result,0,8);
                 var i = BitConverter.ToUInt64(result, 0);
 
                 d = (double)i / (double)ulong.MaxValue;
@@ -163,7 +163,7 @@ namespace Tedd.RandomUtils
         public Byte NextByte()
         {
             var buffer = _arrayPool.Rent(sizeof(Byte));
-            _rng.GetBytes(buffer);
+            _rng.GetBytes(buffer,0,sizeof(Byte));
             var result = (Byte)buffer[0];
             _arrayPool.Return(buffer);
             return result;
@@ -184,7 +184,7 @@ namespace Tedd.RandomUtils
         public UInt16 NextUInt16()
         {
             var buffer = _arrayPool.Rent(sizeof(UInt16));
-            _rng.GetBytes(buffer);
+            _rng.GetBytes(buffer, 0, sizeof(UInt16));
             var result = (UInt16)((UInt16)buffer[0]
                                | ((UInt16)buffer[1] << 8));
             _arrayPool.Return(buffer);
@@ -206,7 +206,7 @@ namespace Tedd.RandomUtils
         public UInt32 NextUInt32()
         {
             var buffer = _arrayPool.Rent(sizeof(UInt32));
-            _rng.GetBytes(buffer);
+            _rng.GetBytes(buffer, 0, sizeof(UInt32));
             var result = (UInt32)((UInt32)buffer[0]
                                | ((UInt32)buffer[1] << 8 * 1)
                                | ((UInt32)buffer[2] << 8 * 2)
@@ -231,7 +231,7 @@ namespace Tedd.RandomUtils
         public UInt64 NextUInt64()
         {
             var buffer = _arrayPool.Rent(sizeof(UInt64));
-            _rng.GetBytes(buffer);
+            _rng.GetBytes(buffer, 0, sizeof(UInt64));
             var result = (UInt64)((UInt64)buffer[0]
                                | ((UInt64)buffer[1] << 8 * 1)
                                | ((UInt64)buffer[2] << 8 * 2)

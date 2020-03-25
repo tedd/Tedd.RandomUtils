@@ -220,7 +220,7 @@ namespace Tedd.RandomUtils
                 return minValue;
 
             // Do
-            var diff = maxValue - minValue;
+            var diff = Math.Abs(maxValue - minValue);
             int val;
             do
             {
