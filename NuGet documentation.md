@@ -1,25 +1,3 @@
-# NuGet
-Available as NuGet package: https://www.nuget.org/packages/Tedd.RandomUtils
-
-# Content
-All extension methods that are available for System.Random are also implemented for both ConcurrentRandom and CryptoRandom.
-
-## System.Random Extension methods
-Extension methods for System.Random that adds support for more datatypes.<br />
-NextBoolean, NextSByte(), NextByte(), NextInt16(), NextUInt16(), NextIn32(), NextUInt32(), NextInt64(), NextUInt64(), NextFloat() and NextString().
-
-## ConcurrentRandom
-ConcurrentRandom provides a thread safe static way to access System.Random by using SpinLock. (This replaces older version that was based on a slower implementation using ThreadLocal as benchmarks.)
-
-## CryptoRandom
-CryptoRandom uses the operating systems underlying CSP (Cryptographic Service Provider) for better random data. See further down for explanation.
-
-## FastRandom
-FastRandom uses a variant of [Lehmer](https://en.wikipedia.org/wiki/Lehmer_random_number_generator) to quickly calculate pseudorandom numbers. This is achieved by multiplying the seed with a large prime. The resulting number is both the new random number and the new seed used for next random number. The output of this implementation has been tested and passes all [Dieharder](https://webhome.phy.duke.edu/~rgb/General/dieharder.php) tests of randomness.
-Note that seed 0 will cause exception.
-
-# Examples
-
 ## Random by type
 ```csharp
 var rnd = new Random();
@@ -139,26 +117,6 @@ public static class Main {
 	}
 }
 ```
-
-## Thread safety
-Any public static (Shared in Visual Basic) members of this type are thread safe. Any instance members are not guaranteed to be thread safe.
-
-## Background
-[System.Random](https://msdn.microsoft.com/en-us/library/system.random(v=vs.110).aspx) is based on a pseudorandom algorithm. This means that given a seed (default: number of milliseconds since computer was started) math is used to generate seemingly random numbers. If given the same seed, a sequence of random numbers will look the same every time. For most cases this is fine, but in some cases you need more random data. One such case is cryptography, where a pseudorandom generator such as [System.Random](https://msdn.microsoft.com/en-us/library/system.random(v=vs.110).aspx) would generate a predictable sequence of numbers.
-
-[RNGCryptoServiceProvider](https://msdn.microsoft.com/en-us/library/system.security.cryptography.rngcryptoserviceprovider(v=vs.110).aspx) through [RandomNumberGenerator](https://msdn.microsoft.com/en-us/library/system.security.cryptography.randomnumbergenerator(v=vs.110).aspx) provides "cryptography grade random" numbers. These numbers are a bit more random as they are provided by the operating system, which has methods of collecting random data.
-
-RandomNumberGenerator gives you a bunch of random bytes. It's up to you to convert to a number and size for whatever purpose. System.Random however has a simple interface, for example rnd.Next(10).
-
-This is where MoreRandom comes in. CryptoRandom mimics System.Random and is a drop-in replacement. You get the power of RandomNumberGenerator with the ease of System.Random.
-
-# Remarks
-## Vanilla System.Random vs this library
-Standard System.Random.Next() returns a positive integer, while all this library return full range of values for given datatype.
-Standard System.Random.Next(from, to) has "exclusive to" value, meaning it only returns 31 random bits in the 32-bit integer. This library returns random for all 32 and 64 bits on NextInt32(), NextUInt32, NextInt64() and NextUInt64() respectively.
-
-# Unit testing
-xUnit in .Net Core with near 100% code coverage. Boundary checks as well as average check (for statistical distribution) on large number of samples.
 
 # Benchmarks
 Each execution is *1.000.000 calculation* of random + loop overhead. So 2.381 ms / 1M is 0.002381 ms per calculation = 2.381 us (microseconds). In case of FastRandom the loop overhead may account for around 50% of the time.
