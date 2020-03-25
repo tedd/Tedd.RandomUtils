@@ -6,7 +6,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Tedd Hansen</Authors>
     <Company>Tedd Hansen</Company>
-    <Description>FastRandom, ConcurrentRandom (thread safe random), CryptoRandom (rng crypto grade random), ConcurrentCryptoRandom, plus methods for primitive datatypes SByte, Byte, Int16, UInt16, Int32, UInt32, Int64, UInt64, short, int, long. This packet replaces Tedd.MoreRandom and Tedd.RandomExtensions.</Description>
+    <Description>FastRandom, ConcurrentRandom (thread safe random), CryptoRandom (rng crypto grade random), ConcurrentCryptoRandom, plus methods for datatypes SByte, Byte, Int16, UInt16, Int32, UInt32, Int64, UInt64, short, int, long. This packet replaces Tedd.MoreRandom and Tedd.RandomExtensions.</Description>
     <PackageTags>FastRandom ConcurrentRandom Fast Thread safe Lockless RNG Crypto Random System.Random NextSByte NextByte NextInt64 NextUInt16 NextInt32 NextUInt32 NextInt64 NextUInt64</PackageTags>
     <Copyright>Tedd Hansen</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>

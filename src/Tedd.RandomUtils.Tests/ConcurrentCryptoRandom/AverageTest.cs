@@ -8,7 +8,7 @@ namespace Tedd.RandomUtils.Tests.ConcurrentCryptoRandom
     public class AverageTest
     {
         private int count = 10;
-        private int iterations = 1000;
+        private int iterations = 100_000;
         private float tolerance = 0.1f;
 
         [Fact]

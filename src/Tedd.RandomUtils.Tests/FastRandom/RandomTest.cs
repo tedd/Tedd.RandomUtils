@@ -13,6 +13,28 @@ namespace Tedd.RandomUtils.Tests.FastRandom
         [InlineData(-10223, 165373)]
         [InlineData(Int32.MinValue, 100_000)]
         [Theory]
+        public void Ctor(int min, int max)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => new RandomUtils.FastRandom(0));
+            var rnd = new RandomUtils.FastRandom(1);
+
+            ulong accumulated = 0;
+            for (int i = 0; i < TestIterations; i++)
+            {
+                accumulated += (ulong)_trueRandom.Next(min, max);
+            }
+            decimal avg = (decimal)accumulated / (decimal)TestIterations;
+
+            // We expect average of high amount of random numbers to be close to 0.5D.
+            var diff = min - Math.Abs(avg - (decimal)((max - 1 - min) * 0.5m));
+            Assert.True(diff < 0.01m, $"Diff {diff} must be less than 0.01m");
+        }
+
+        [InlineData(0, 4)]
+        [InlineData(10, 21)]
+        [InlineData(-10223, 165373)]
+        [InlineData(Int32.MinValue, 100_000)]
+        [Theory]
         public void Next_min_max(int min, int max)
         {
             ulong accumulated = 0;

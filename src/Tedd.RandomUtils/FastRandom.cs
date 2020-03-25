@@ -20,7 +20,7 @@ namespace Tedd.RandomUtils
         /// </summary>
         public FastRandom()
         {
-            _seed = (UInt64)((Int64)Environment.TickCount | (Int64)(Environment.TickCount + 10) << 32);
+            _seed = (UInt64)((Int64)Environment.TickCount | (Int64)(Environment.TickCount + 19) << 32);
         }
 
         /// <summary>

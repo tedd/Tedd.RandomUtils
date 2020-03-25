@@ -41,8 +41,8 @@ namespace Tedd.RandomUtils.Tests.CryptoRandom
             Assert.True(diff < 0.01m, $"Diff {diff} must be less than 0.01m");
         }
 
-        [InlineData(1)]
-        [InlineData(3)]
+        //[InlineData(1)]
+        [InlineData(10)]
         [InlineData(177)]
         [Theory]
         public void NextBytes(int size)
