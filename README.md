@@ -72,6 +72,23 @@ string val11 = rnd.NextString("abcdefg", 8);
 rnd.NextBytes(byteArray);
 ```
 
+## Thread safe random
+Thread safe crypto strength random without locking.
+```csharp
+bool   val1  = ConcurrentCryptoRandom.NextBoolean();
+sbyte  val2  = ConcurrentCryptoRandom.NextSByte();
+byte   val3  = ConcurrentCryptoRandom.NextByte();
+short  val4  = ConcurrentCryptoRandom.NextInt16();
+ushort val5  = ConcurrentCryptoRandom.NextUInt16();
+int    val6  = ConcurrentCryptoRandom.NextInt32();
+uint   val7  = ConcurrentCryptoRandom.NextUInt32();
+long   val8  = ConcurrentCryptoRandom.NextInt64();
+ulong  val9  = ConcurrentCryptoRandom.NextUInt64();
+float  val10 = ConcurrentCryptoRandom.NextFloat();
+string val11 = ConcurrentCryptoRandom.NextString("abcdefg", 8);
+ConcurrentCryptoRandom.NextBytes(byteArray);
+```
+
 ## Fast random
 ```csharp
 using rnd = new FastRandom();
@@ -89,8 +106,6 @@ float  val10 = rnd.NextFloat();
 string val11 = rnd.NextString("abcdefg", 8);
 rnd.NextBytes(byteArray);
 ```
-
-
 
 # CryptoRandom
 Drop-in replacement for [System.Random](https://msdn.microsoft.com/en-us/library/system.random(v=vs.110).aspx) that gets more random data from Cryptographic Service Provider.
