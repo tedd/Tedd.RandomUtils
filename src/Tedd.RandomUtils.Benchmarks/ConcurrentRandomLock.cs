@@ -401,7 +401,7 @@ namespace Tedd.RandomUtils
         #region String
 
         // Note that .Net Core sometime after 3.1 will probably be getting these
-#if NET461 || NETSTANDARD || NETCOREAPP2_1 || NETCOREAPP3 || NETCOREAPP3_0 || NETCOREAPP3_1
+#if HASSPAN
 
         /// <summary>
         /// Generates random string of the given length.

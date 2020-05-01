@@ -173,8 +173,8 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
             }
         }
 
-#if NET461 || NETSTANDARD || NETCOREAPP2_1 || NETCOREAPP3 || NETCOREAPP3_0 || NETCOREAPP3_1
-
+#if HASSPAN 
+        
         [InlineData("a", 1)]
         [InlineData("abc", 100)]
         [InlineData("abcdeFGHIJ!\"#¤%&/()=1234", 10_000)]
@@ -238,7 +238,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
             var rnd = new Random();
             Assert.Equal(string.Empty,rnd.NextString("abc", 0));
         }
-    }
 #endif
+    }
 
 }

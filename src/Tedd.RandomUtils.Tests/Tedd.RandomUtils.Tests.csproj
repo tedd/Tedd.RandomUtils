@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -17,5 +17,10 @@
     <ProjectReference Include="..\Tedd.RandomUtils.Benchmarks\Tedd.RandomUtils.Benchmarks.csproj" />
     <ProjectReference Include="..\Tedd.RandomUtils\Tedd.RandomUtils.csproj" />
   </ItemGroup>
+
+
+  <PropertyGroup>
+    <DefineConstants>HASSPAN;HAS_SYSTEMBUFFERS</DefineConstants>
+  </PropertyGroup>
 
 </Project>

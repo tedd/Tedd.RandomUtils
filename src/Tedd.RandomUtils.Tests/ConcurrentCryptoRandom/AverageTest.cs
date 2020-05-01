@@ -291,7 +291,7 @@ namespace Tedd.RandomUtils.Tests.ConcurrentCryptoRandom
             }
         }
 
-#if NET461 || NETSTANDARD || NETCOREAPP2_1 || NETCOREAPP3 || NETCOREAPP3_0 || NETCOREAPP3_1
+#if HASSPAN
 
         [InlineData("a", 1)]
         [InlineData("abc", 100)]
@@ -356,7 +356,7 @@ namespace Tedd.RandomUtils.Tests.ConcurrentCryptoRandom
 
             Assert.Equal(string.Empty, rnd.NextString("abc", 0));
         }
-    }
 #endif
+    }
 
 }

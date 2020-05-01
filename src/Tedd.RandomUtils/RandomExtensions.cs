@@ -77,7 +77,7 @@ namespace Tedd
         #region String
 
         // Note that .Net Core sometime after 3.1 will probably be getting these
-#if NET461 || NETSTANDARD || NETCOREAPP2_1 || NETCOREAPP3 || NETCOREAPP3_0 || NETCOREAPP3_1
+#if HASSPAN
         private static string NextString(ref Random random, ReadOnlySpan<char> allowedChars, int length)
         {
             if (length < 0)

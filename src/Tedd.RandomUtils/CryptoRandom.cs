@@ -1,5 +1,7 @@
 ﻿using System;
+#if HAS_SYSTEMBUFFERS
 using System.Buffers;
+#endif
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 
@@ -7,7 +9,9 @@ namespace Tedd.RandomUtils
 {
     public sealed class CryptoRandom : IDisposable
     {
-        private ArrayPool<byte> _arrayPool = ArrayPool<byte>.Shared;
+#if HAS_SYSTEMBUFFERS
+        private readonly ArrayPool<byte> _arrayPool = ArrayPool<byte>.Shared;
+#endif
         private readonly RandomNumberGenerator _rng;
 
         public CryptoRandom()
@@ -55,7 +59,12 @@ namespace Tedd.RandomUtils
                 return minValue;
 
             // Do
+#if HAS_SYSTEMBUFFERS
+
             var result = _arrayPool.Rent(4);
+#else
+            var result = new byte[4];
+#endif
             var diff = Math.Abs(maxValue - minValue);
             int val;
             do
@@ -71,7 +80,9 @@ namespace Tedd.RandomUtils
 
                 // Unlikely that we'll get 1.0D, but a promise is a promise.
             } while (val >= maxValue);
+#if HAS_SYSTEMBUFFERS
             _arrayPool.Return(result);
+#endif
             return val;
         }
 
@@ -112,7 +123,12 @@ namespace Tedd.RandomUtils
         /// <returns>A double-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
         public double NextDouble()
         {
+#if HAS_SYSTEMBUFFERS
             var result = _arrayPool.Rent(8);
+#else
+            var result = new byte[8];
+#endif
+
             var d = 0.0D;
 
             do
@@ -124,8 +140,9 @@ namespace Tedd.RandomUtils
 
                 // Unlikely that we'll get 1.0D, but a promise is a promise.
             } while (d >= 1.0D);
-
+#if HAS_SYSTEMBUFFERS
             _arrayPool.Return(result);
+#endif
             return d;
         }
 
@@ -162,10 +179,16 @@ namespace Tedd.RandomUtils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Byte NextByte()
         {
+#if HAS_SYSTEMBUFFERS
             var buffer = _arrayPool.Rent(sizeof(Byte));
+#else
+            var buffer = new byte[sizeof(Byte)];
+#endif
             _rng.GetBytes(buffer,0,sizeof(Byte));
             var result = (Byte)buffer[0];
+#if HAS_SYSTEMBUFFERS
             _arrayPool.Return(buffer);
+#endif
             return result;
         }
 
@@ -183,11 +206,17 @@ namespace Tedd.RandomUtils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt16 NextUInt16()
         {
+#if HAS_SYSTEMBUFFERS
             var buffer = _arrayPool.Rent(sizeof(UInt16));
+#else
+            var buffer = new byte[sizeof(UInt16)];
+#endif
             _rng.GetBytes(buffer, 0, sizeof(UInt16));
             var result = (UInt16)((UInt16)buffer[0]
                                | ((UInt16)buffer[1] << 8));
+#if HAS_SYSTEMBUFFERS
             _arrayPool.Return(buffer);
+#endif
             return result;
         }
 
@@ -205,14 +234,20 @@ namespace Tedd.RandomUtils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt32 NextUInt32()
         {
+#if HAS_SYSTEMBUFFERS
             var buffer = _arrayPool.Rent(sizeof(UInt32));
+#else
+            var buffer = new byte[sizeof(UInt32)];
+#endif
             _rng.GetBytes(buffer, 0, sizeof(UInt32));
             var result = (UInt32)((UInt32)buffer[0]
                                | ((UInt32)buffer[1] << 8 * 1)
                                | ((UInt32)buffer[2] << 8 * 2)
                                | ((UInt32)buffer[3] << 8 * 3)
                                );
+#if HAS_SYSTEMBUFFERS
             _arrayPool.Return(buffer);
+#endif
             return result;
         }
 
@@ -230,7 +265,11 @@ namespace Tedd.RandomUtils
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public UInt64 NextUInt64()
         {
+#if HAS_SYSTEMBUFFERS
             var buffer = _arrayPool.Rent(sizeof(UInt64));
+#else
+            var buffer = new byte[sizeof(UInt64)];
+#endif
             _rng.GetBytes(buffer, 0, sizeof(UInt64));
             var result = (UInt64)((UInt64)buffer[0]
                                | ((UInt64)buffer[1] << 8 * 1)
@@ -242,15 +281,17 @@ namespace Tedd.RandomUtils
                                | ((UInt64)buffer[6] << 8 * 6)
                                | ((UInt64)buffer[7] << 8 * 7)
                                );
+#if HAS_SYSTEMBUFFERS
             _arrayPool.Return(buffer);
+#endif
             return result;
         }
 
 
-        #region String
+#region String
 
         // Note that .Net Core sometime after 3.1 will probably be getting these
-#if NET461 || NETSTANDARD || NETCOREAPP2_1 || NETCOREAPP3 || NETCOREAPP3_0 || NETCOREAPP3_1
+#if HASSPAN
         /// <summary>
         /// Generates random string of the given length.
         /// </summary>
@@ -293,12 +334,12 @@ namespace Tedd.RandomUtils
         public string NextString(string allowedChars, int length)
             => NextString(allowedChars.AsSpan(), length);
 #endif
-        #endregion
+#endregion
 
 
 
 
-        #region IDisposable
+#region IDisposable
         private void ReleaseUnmanagedResources()
         {
             _rng.Dispose();
@@ -323,7 +364,7 @@ namespace Tedd.RandomUtils
         {
             Dispose(false);
         }
-        #endregion
+#endregion
 
     }
 }
