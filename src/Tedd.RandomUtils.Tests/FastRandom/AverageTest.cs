@@ -198,7 +198,6 @@ namespace Tedd.RandomUtils.Tests.FastRandom
             }
         }
 
-#if HASSPAN
         [InlineData("a", 1)]
         [InlineData("abc", 100)]
         [InlineData("abcdeFGHIJ!\"#¤%&/()=1234", 10_000)]
@@ -230,6 +229,7 @@ namespace Tedd.RandomUtils.Tests.FastRandom
                     Assert.Contains(ch, str);
             }
         }
+#if HASSPAN
 
         [InlineData("a", 1)]
         [InlineData("abc", 100)]

@@ -198,7 +198,6 @@ namespace Tedd.RandomUtils.Tests.CryptoRandom
             }
         }
 
-#if HASSPAN
 
         [InlineData("a", 1)]
         [InlineData("abc", 100)]
@@ -231,6 +230,7 @@ namespace Tedd.RandomUtils.Tests.CryptoRandom
                     Assert.Contains(ch, str);
             }
         }
+#if HASSPAN
 
         [InlineData("a", 1)]
         [InlineData("abc", 100)]

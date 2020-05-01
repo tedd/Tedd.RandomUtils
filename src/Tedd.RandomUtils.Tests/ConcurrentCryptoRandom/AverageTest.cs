@@ -291,7 +291,6 @@ namespace Tedd.RandomUtils.Tests.ConcurrentCryptoRandom
             }
         }
 
-#if HASSPAN
 
         [InlineData("a", 1)]
         [InlineData("abc", 100)]
@@ -325,6 +324,7 @@ namespace Tedd.RandomUtils.Tests.ConcurrentCryptoRandom
             }
         }
 
+#if HASSPAN
         [InlineData("a", 1)]
         [InlineData("abc", 100)]
         [InlineData("abcdeFGHIJ!\"#¤%&/()=1234", 10_000)]

@@ -6,19 +6,18 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Tedd Hansen</Authors>
     <Company>Tedd Hansen</Company>
-    <Description>100% unit test code coverage: FastRandom, ConcurrentRandom (thread safe random), CryptoRandom (rng crypto grade random), ConcurrentCryptoRandom, Next-methods for datatypes: SByte, Byte, Int16, UInt16, Int32, UInt32, Int64, UInt64, short, int, long. This packet replaces Tedd.MoreRandom and Tedd.RandomExtensions.</Description>
+    <Description>100% unit test code coverage: FastRandom, ConcurrentRandom (thread safe random), CryptoRandom (rng crypto grade random), ConcurrentCryptoRandom, Next-methods for datatypes: SByte, Byte, Int16, UInt16, Int32, UInt32, Int64, UInt64, short, int, long, string. This packet replaces Tedd.MoreRandom and Tedd.RandomExtensions.</Description>
     <PackageTags>FastRandom ConcurrentRandom Fast Thread safe Lockless RNG Crypto Random System.Random NextSByte NextByte NextInt64 NextUInt16 NextInt32 NextUInt32 NextInt64 NextUInt64</PackageTags>
     <Copyright>Tedd Hansen</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/tedd/Tedd.RandomUtils</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tedd/Tedd.RandomUtils</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
-    <Version>1.0.3</Version>
-    <PackageReleaseNotes>
-      Added ConcurrentCryptoRandom.
-      Added FastRandom based on Lehmer which is 70% faster than System.Random.
-      Increased speed of ConcurrentRandom by 25% by avoiding ThreadLocal.
-    </PackageReleaseNotes>
+    <Version>1.0.4</Version>
+    <PackageReleaseNotes>Added ConcurrentCryptoRandom.
+Added FastRandom based on Lehmer which is 70% faster than System.Random.
+Increased speed of ConcurrentRandom by 25% by avoiding ThreadLocal.
+</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
@@ -29,7 +28,7 @@
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^(net[456]|netstandard(2_[12345]|[345]_)|netcoreapp(2\.[1234]|[345]))'))">
+  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^(net(46[1-9]|4[7-9]|[5-9])|netstandard(2\.[1-9]|[3-9]\d*\.)|netcoreapp(2\.[1-9]|[3-9]\.))'))">
     <DefineConstants>HASSPAN;HAS_SYSTEMBUFFERS</DefineConstants>
   </PropertyGroup>
 

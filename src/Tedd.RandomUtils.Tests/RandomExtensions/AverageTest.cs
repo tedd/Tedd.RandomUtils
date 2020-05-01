@@ -172,8 +172,6 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
                 Assert.InRange((Int64)sum, mid - t, mid + t);
             }
         }
-
-#if HASSPAN 
         
         [InlineData("a", 1)]
         [InlineData("abc", 100)]
@@ -206,6 +204,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
                     Assert.Contains(ch, str);
             }
         }
+#if HASSPAN
 
         [InlineData("a", 1)]
         [InlineData("abc", 100)]

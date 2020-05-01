@@ -126,6 +126,7 @@ namespace Tedd
         public static string NextString(this Random random, string allowedChars, int length)
             => NextString(ref random, allowedChars.AsSpan(), length);
 #endif
-#endregion
+
+        #endregion
     }
 }
