@@ -24,6 +24,12 @@
     <ProjectReference Include="..\Tedd.RandomUtils\Tedd.RandomUtils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="xunit.runner.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
   <PropertyGroup>
     <DefineConstants>HASSPAN;HAS_SYSTEMBUFFERS</DefineConstants>
