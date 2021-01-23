@@ -82,12 +82,37 @@ namespace Tedd.RandomUtils.Tests.FastRandom
         [Fact]
         public void NextDouble()
         {
+            var low = double.MaxValue;
+            var high = double.MinValue;
             for (int i = 0; i < TestIterations; i++)
             {
                 var val = _trueRandom.NextDouble();
                 Assert.True(val >= 0);
                 Assert.True(val < 1.0D);
+                low = Math.Min(low, val);
+                high = Math.Max(high, val);
             }
+
+            Assert.True(low < 0.0001D);
+            Assert.True(high > 0.9999D);
+        }
+
+        [Fact]
+        public void NextSingle()
+        {
+            var low = float.MaxValue;
+            var high = float.MinValue;
+            for (int i = 0; i < TestIterations; i++)
+            {
+                var val = _trueRandom.NextSingle();
+                Assert.True(val >= 0);
+                Assert.True(val < 1.0D);
+                low = Math.Min(low, val);
+                high = Math.Max(high, val);
+            }
+
+            Assert.True(low < 0.0001D);
+            Assert.True(high > 0.9999D);
         }
 
     }

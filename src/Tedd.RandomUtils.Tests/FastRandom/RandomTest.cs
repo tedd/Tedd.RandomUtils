@@ -50,6 +50,19 @@ namespace Tedd.RandomUtils.Tests.FastRandom
         }
 
         [Fact]
+        public void NextSingle()
+        {
+            decimal accumulated = 0;
+            for (int i = 0; i < TestIterations; i++)
+            {
+                accumulated += (decimal)_trueRandom.NextSingle();
+            }
+            accumulated /= TestIterations;
+
+            // We expect average of high amount of random numbers to be close to 0.5D.
+            var diff = Math.Abs((decimal)accumulated - 0.5m);
+            Assert.True(diff < 0.01m, $"Diff {diff} must be less than 0.01m");
+        }[Fact]
         public void NextDouble()
         {
             decimal accumulated = 0;

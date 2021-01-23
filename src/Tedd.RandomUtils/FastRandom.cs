@@ -153,21 +153,28 @@ namespace Tedd.RandomUtils
         public bool NextBoolean(double trueProbability = 0.5D) => trueProbability >= 0.0D && trueProbability <= 1.0D ?
             NextDouble() >= 1.0D - trueProbability :
             throw new ArgumentOutOfRangeException(nameof(trueProbability));
+        private const UInt64 mask1_64 = 0b00111111_11110000_00000000_00000000__00000000_00000000_00000000_00000000;
+        private const UInt64 mask2_64 = 0b00111111_11111111_11111111_11111111__11111111_11111111_11111111_11111111;
+        private const UInt32 mask1_32 = 0b00111111_10000000_00000000_00000000;
+        private const UInt32 mask2_32 = 0b00111111_11111111_11111111_11111111;
+        
         /// <summary>
         /// Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.
         /// </summary>
         /// <returns>A double-precision floating point number that is greater than or equal to 0.0, and less than 1.0.</returns>
-        public double NextDouble()
+        public unsafe double NextDouble()
         {
             double d;
             do
             {
-                var i = NextUInt64();
-                d = (double)i / (double)ulong.MaxValue;
+                var i = _seed *= LehmerConst;
+                // https://stackoverflow.com/a/52148190/313088
+                i = (i | mask1_64) & mask2_64;
+                d = *(double*)(&i);
                 // Unlikely that we'll get 1.0D, but a promise is a promise.
-            } while (d >= 1.0D);
+            } while (d >= 2.0D);
 
-            return d;
+            return d-1;
         }
 
 
@@ -176,7 +183,25 @@ namespace Tedd.RandomUtils
         /// </summary>
         /// <returns>Random number between 0 and 1.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public float NextFloat() => (float)NextDouble();
+        public unsafe float NextFloat()
+        {
+            float d;
+            do
+            {
+                var i = _seed *= LehmerConst;
+                i = (i | mask1_32) & mask2_32;
+                d = *(float*)(&i);
+                // Unlikely that we'll get 1.0D, but a promise is a promise.
+            } while (d >= 2.0D);
+            return d - 1;
+        }
+
+        /// <summary>
+        /// Gets random value from between 0 and 1.
+        /// </summary>
+        /// <returns>Random number between 0 and 1.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float NextSingle() => NextFloat();
 
         /// <summary>
         /// Returns a non-negative random integer.
