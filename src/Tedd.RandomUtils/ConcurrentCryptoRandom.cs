@@ -448,5 +448,15 @@ namespace Tedd.RandomUtils
 #endif
         #endregion
         #endregion
+
+        #region Aliases
+        /// <summary>
+        /// Gets random value from between 0 and 1.
+        /// </summary>
+        /// <returns>Random number between 0 and 1.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float NextSingle() => NextFloat();
+        #endregion
+
     }
 }

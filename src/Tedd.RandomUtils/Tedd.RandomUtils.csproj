@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net461;net462;netstandard2.0;netstandard2.1;netcoreapp2.0;netcoreapp2.1;netcoreapp3.0;netcoreapp3.1;net50</TargetFrameworks>
-    <!--<TargetFramework>netcoreapp3.0</TargetFramework>-->
+    <TargetFrameworks>net462;netstandard2.0;netstandard2.0;netstandard2.1;netcoreapp3.1;net50</TargetFrameworks>
+    <!--<TargetFramework>netstandard2.0</TargetFramework>-->
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Tedd Hansen</Authors>
     <Company>Tedd Hansen</Company>
@@ -14,86 +14,34 @@
     <RepositoryUrl>https://github.com/tedd/Tedd.RandomUtils</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <Version>1.0.5</Version>
-    <PackageReleaseNotes>Added ConcurrentCryptoRandom.
-Added FastRandom based on Lehmer which is 70% faster than System.Random.
-Increased speed of ConcurrentRandom by 25% by avoiding ThreadLocal.
-</PackageReleaseNotes>
+    <PackageReleaseNotes>
+      Added ConcurrentCryptoRandom.
+      Added FastRandom based on Lehmer which is 70% faster than System.Random.
+      Increased speed of ConcurrentRandom by 25% by avoiding ThreadLocal.
+    </PackageReleaseNotes>
   </PropertyGroup>
+  <ItemGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^(net4|netcoreapp2|netstandard)'))">
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+  </ItemGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net461|AnyCPU'">
+  <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net461|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
   <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^(net(46[1-9]|4[7-9]|[5-9])|netstandard(2\.[1-9]|[3-9]\d*\.)|netcoreapp(2\.[1-9]|[3-9]\.))'))">
-    <DefineConstants>HASSPAN;HAS_SYSTEMBUFFERS</DefineConstants>
+    <DefineConstants>$(DefineConstants);HASSPAN;HAS_SYSTEMBUFFERS</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.0|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^net4'))">
+    <DefineConstants>$(DefineConstants);NETFRAMEWORK</DefineConstants>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.1|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^(netcoreapp|netstandard2\.1|net[56789])'))">
+    <DefineConstants>$(DefineConstants);NETCOREAPP</DefineConstants>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.0|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^(net4|netcoreapp2|netstandard)'))">
+    <DefineConstants>$(DefineConstants);BEFORENETCOREAPP3</DefineConstants>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.1|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net50|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.0|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net462|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.1|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net50|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.1|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp3.1|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net462|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.0|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp3.1|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^netstandard2\.1'))">
+    <DefineConstants>$(DefineConstants);NETSTANDARD21</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
