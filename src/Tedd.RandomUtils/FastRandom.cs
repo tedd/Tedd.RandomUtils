@@ -157,7 +157,7 @@ namespace Tedd.RandomUtils
         private const UInt64 mask2_64 = 0b00111111_11111111_11111111_11111111__11111111_11111111_11111111_11111111;
         private const UInt32 mask1_32 = 0b00111111_10000000_00000000_00000000;
         private const UInt32 mask2_32 = 0b00111111_11111111_11111111_11111111;
-        
+
         /// <summary>
         /// Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.
         /// </summary>
@@ -167,14 +167,14 @@ namespace Tedd.RandomUtils
             double d;
             do
             {
-                var i = _seed *= LehmerConst;
+                var i = NextUInt64();
                 // https://stackoverflow.com/a/52148190/313088
                 i = (i | mask1_64) & mask2_64;
                 d = *(double*)(&i);
                 // Unlikely that we'll get 1.0D, but a promise is a promise.
             } while (d >= 2.0D);
 
-            return d-1;
+            return d - 1;
         }
 
 
@@ -188,7 +188,8 @@ namespace Tedd.RandomUtils
             float d;
             do
             {
-                var i = _seed *= LehmerConst;
+                var i = NextUInt32();
+                // Modified from https://stackoverflow.com/a/52148190/313088
                 i = (i | mask1_32) & mask2_32;
                 d = *(float*)(&i);
                 // Unlikely that we'll get 1.0D, but a promise is a promise.
