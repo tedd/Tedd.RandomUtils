@@ -62,7 +62,9 @@ namespace Tedd.RandomUtils.Tests.FastRandom
             // We expect average of high amount of random numbers to be close to 0.5D.
             var diff = Math.Abs((decimal)accumulated - 0.5m);
             Assert.True(diff < 0.01m, $"Diff {diff} must be less than 0.01m");
-        }[Fact]
+        }
+
+        [Fact]
         public void NextDouble()
         {
             decimal accumulated = 0;
@@ -75,6 +77,42 @@ namespace Tedd.RandomUtils.Tests.FastRandom
             // We expect average of high amount of random numbers to be close to 0.5D.
             var diff = Math.Abs((decimal)accumulated - 0.5m);
             Assert.True(diff < 0.01m, $"Diff {diff} must be less than 0.01m");
+        }
+
+        [Fact]
+        public void NextDoubleHistogram()
+        {
+            var iterations = 100_000_000;
+            var rCount = new int[10000];
+            for (int i = 0; i < iterations; i++)
+            {
+                var d = (Decimal)_trueRandom.NextDouble();
+                var n = (int)(d * rCount.Length);
+                rCount[n]++;
+            }
+
+            var expected = iterations / rCount.Length;
+            var maxOff = (int)(expected * 0.95f);
+            for (var i = 0; i < rCount.Length; i++)
+                Assert.True(rCount[i] > maxOff, $"Histogram has uneven distribution, count is {rCount[i]} < {maxOff}");
+        }     
+
+        [Fact]
+        public void NextFloatHistogram()
+        {
+            var iterations = 100_000_000;
+            var rCount = new int[10000];
+            for (int i = 0; i < iterations; i++)
+            {
+                var d = (Decimal)_trueRandom.NextFloat();
+                var n = (int)(d * rCount.Length);
+                rCount[n]++;
+            }
+
+            var expected = iterations / rCount.Length;
+            var maxOff = (int)(expected * 0.95f);
+            for (var i = 0; i < rCount.Length; i++)
+                Assert.True(rCount[i] > maxOff, $"Histogram has uneven distribution, count is {rCount[i]} < {maxOff}");
         }
 
         [InlineData(1)]
