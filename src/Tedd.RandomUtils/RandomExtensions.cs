@@ -36,7 +36,6 @@ namespace Tedd
         public static Byte NextByte(this Random random) => (Byte)random.Next(Byte.MinValue, Byte.MaxValue + 1);
         /// <summary>
         /// Gets random value from inclusive Int16.MinValue to inclusive Int16.MaxValue.
-        /// ()
         /// </summary>
         /// <returns>Random number from -32_768 to 32_767 inclusive.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -127,6 +126,48 @@ namespace Tedd
             => NextString(ref random, allowedChars.AsSpan(), length);
 #endif
 
+        #endregion
+
+        #region Aliases
+        /// <summary>
+        /// Gets random value from between 0 and 1.
+        /// </summary>
+        /// <returns>Random number between 0 and 1.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float NextSingle(this Random random) => random.NextFloat();
+        /// <summary>
+        /// Gets random value from inclusive short.MinValue to inclusive short.MaxValue.
+        /// </summary>
+        /// <returns>Random number from -32_768 to 32_767 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float NextShort(this Random random) => random.NextInt16();
+        /// <summary>
+        /// Gets random value from inclusive ushort.MinValue to inclusive ushort.MaxValue.
+        /// </summary>
+        /// <returns>Random number from 0 to 65_535 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float NextUShort(this Random random) => random.NextUInt16();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int32 NextInt(this Random random) => random.NextInt32();
+        /// <summary>
+        /// Gets random value from inclusive uint.MinValue to inclusive uint.MaxValue.
+        /// </summary>
+        /// <returns>Random number from 0 to 4_294_967_295 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt32 NextUInt(this Random random) => random.NextUInt32();
+
+        /// <summary>
+        /// Gets random value from inclusive long.MinValue to inclusive long.MaxValue.
+        /// </summary>
+        /// <returns>Random number from -9_223_372_036_854_775_808 to 9_223_372_036_854_775_807 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Int64 NextLong(this Random random) => random.NextInt64();
+        /// <summary>
+        /// Gets random value from inclusive ulong.MinValue to inclusive ulong.MaxValue.
+        /// </summary>
+        /// <returns>Random number from 0 to 18_446_744_073_709_551_615 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static UInt64 NextULong(this Random random) => random.NextUInt64();
         #endregion
     }
 }

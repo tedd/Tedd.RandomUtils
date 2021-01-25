@@ -280,6 +280,39 @@ namespace Tedd.RandomUtils
         /// <returns>Random number between 0 and 1.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float NextSingle() => NextFloat();
+        /// <summary>
+        /// Gets random value from inclusive short.MinValue to inclusive short.MaxValue.
+        /// </summary>
+        /// <returns>Random number from -32_768 to 32_767 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float NextShort() => NextInt16();
+        /// <summary>
+        /// Gets random value from inclusive ushort.MinValue to inclusive ushort.MaxValue.
+        /// </summary>
+        /// <returns>Random number from 0 to 65_535 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public float NextUShort() => NextUInt16();
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int32 NextInt() => NextInt32();
+        /// <summary>
+        /// Gets random value from inclusive uint.MinValue to inclusive uint.MaxValue.
+        /// </summary>
+        /// <returns>Random number from 0 to 4_294_967_295 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public UInt32 NextUInt() => NextUInt32();
+
+        /// <summary>
+        /// Gets random value from inclusive long.MinValue to inclusive long.MaxValue.
+        /// </summary>
+        /// <returns>Random number from -9_223_372_036_854_775_808 to 9_223_372_036_854_775_807 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Int64 NextLong() => NextInt64();
+        /// <summary>
+        /// Gets random value from inclusive ulong.MinValue to inclusive ulong.MaxValue.
+        /// </summary>
+        /// <returns>Random number from 0 to 18_446_744_073_709_551_615 inclusive.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public UInt64 NextULong() => NextUInt64();
         #endregion
     }
 }

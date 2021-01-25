@@ -82,8 +82,8 @@ namespace Tedd.RandomUtils.Tests.FastRandom
         [Fact]
         public void NextDoubleHistogram()
         {
-            var iterations = 100_000_000;
-            var rCount = new int[10000];
+            var iterations = 1_000_000_000;
+            var rCount = new int[100_000];
             for (int i = 0; i < iterations; i++)
             {
                 var d = (Decimal)_trueRandom.NextDouble();
@@ -95,13 +95,13 @@ namespace Tedd.RandomUtils.Tests.FastRandom
             var maxOff = (int)(expected * 0.95f);
             for (var i = 0; i < rCount.Length; i++)
                 Assert.True(rCount[i] > maxOff, $"Histogram has uneven distribution, count is {rCount[i]} < {maxOff}");
-        }     
+        } 
 
         [Fact]
         public void NextFloatHistogram()
         {
-            var iterations = 100_000_000;
-            var rCount = new int[10000];
+            var iterations = 1_000_000_000;
+            var rCount = new int[100_000];
             for (int i = 0; i < iterations; i++)
             {
                 var d = (Decimal)_trueRandom.NextFloat();
