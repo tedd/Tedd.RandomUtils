@@ -41,12 +41,23 @@ namespace Tedd.RandomUtils.Benchmarks
                 speedTest.FastRandomStatic();
 
                 speedTest.GlobalCleanup();
+            }   
+            {
+                var speedTest = new SpeedTest_Double();
+                speedTest.GlobalSetup();
+                speedTest.IterationSetup();
+
+                speedTest.SystemRandom();
+                speedTest.FastRandom();
+
+
             }
 
 
             //var summary1 = BenchmarkRunner.Run<SpeedTest_Single>();
             //var summary2 = BenchmarkRunner.Run<SpeedTest_Array>();
-            var summary3 = BenchmarkRunner.Run<SpeedTest_All>();
+            //var summary3 = BenchmarkRunner.Run<SpeedTest_All>();
+            var summary4 = BenchmarkRunner.Run<SpeedTest_Double>();
         }
     }
 }

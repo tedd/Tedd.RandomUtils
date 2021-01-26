@@ -26,10 +26,10 @@ namespace Tedd.RandomUtils.Benchmarks
             Add(Job.LongRun
                 .WithLaunchCount(1)
                 .WithGcForce(true)
-                .WithId("x64 .Net Core 3.1 Ryu")
+                .WithId("x64 .Net Core 5.0 Ryu")
                 .With(Platform.X64)
                 .With(Jit.RyuJit)
-                .With(CoreRuntime.Core31)
+                .With(CoreRuntime.Core50)
                 );
             
             //Add(Job.Default
