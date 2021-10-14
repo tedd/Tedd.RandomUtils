@@ -9,29 +9,26 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
+    strategy:
+      matrix:
+        dotnet: [ '2.1.x', '3.1.x', '5.0.x', '6.0.x' ]
+        
+    name: Dotnet ${{ matrix.dotnet }} sample
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core 3.1
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.x
-    - name: Setup .NET 5.0
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-    - name: Setup .NET 6.0
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 6.0.x
-        include-prerelease: true
-    - name: Restore dependencies
-      working-directory: src
-      run: dotnet restore
-    - name: Build
-      working-directory: src
-      run: dotnet build --no-restore
-    - name: Test
-      working-directory: src
-      run: dotnet test --no-build --verbosity normal
+      - uses: actions/checkout@v2
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ matrix.dotnet }}
+
+      - name: Restore dependencies
+        working-directory: src
+        run: dotnet restore
+      - name: Build
+        working-directory: src
+        run: dotnet build --no-restore
+      - name: Test
+        working-directory: src
+        run: dotnet test --no-build --verbosity normal
