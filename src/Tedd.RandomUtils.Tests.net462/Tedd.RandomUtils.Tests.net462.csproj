@@ -12,7 +12,7 @@
 
 
   <ItemGroup>
-    <Compile Include="..\Tedd.RandomUtils.Tests\**\*.cs" Exclude="..\Tedd.RandomUtils.Tests\obj\**\*.cs" />
+    <Compile Include="..\Tedd.RandomUtils.Tests.netcoreapp3.1\**\*.cs" Exclude="..\Tedd.RandomUtils.Tests.netcoreapp3.1\obj\**\*.cs" />
   </ItemGroup>
 
 

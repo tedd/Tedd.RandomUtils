@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31808.319
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils", "Tedd.RandomUtils\Tedd.RandomUtils.csproj", "{5816102C-9D94-49B2-AA0A-86FA0057ADE6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils.Tests.netcoreapp3.1", "Tedd.RandomUtils.Tests\Tedd.RandomUtils.Tests.netcoreapp3.1.csproj", "{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils.Benchmarks", "Tedd.RandomUtils.Benchmarks\Tedd.RandomUtils.Benchmarks.csproj", "{538B0D51-1053-4B1D-9C00-2C0465361ED8}"
 EndProject
@@ -14,6 +12,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils.Tests.net5", "Tedd.RandomUtils.Tests.net5\Tedd.RandomUtils.Tests.net5.csproj", "{18B60157-77D5-453A-AA86-E5D12EB603B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils.Tests.net6", "Tedd.RandomUtils.Tests.net6\Tedd.RandomUtils.Tests.net6.csproj", "{A6A08A4E-0663-4843-86A2-71EF3158A3DB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils.Tests.netcoreapp3.1", "Tedd.RandomUtils.Tests.netcoreapp3.1\Tedd.RandomUtils.Tests.netcoreapp3.1.csproj", "{3572C60C-4F3F-4177-9386-5B1D8A294AF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,6 @@ Global
 		{5816102C-9D94-49B2-AA0A-86FA0057ADE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5816102C-9D94-49B2-AA0A-86FA0057ADE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5816102C-9D94-49B2-AA0A-86FA0057ADE6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{538B0D51-1053-4B1D-9C00-2C0465361ED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{538B0D51-1053-4B1D-9C00-2C0465361ED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{538B0D51-1053-4B1D-9C00-2C0465361ED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +41,10 @@ Global
 		{A6A08A4E-0663-4843-86A2-71EF3158A3DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6A08A4E-0663-4843-86A2-71EF3158A3DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6A08A4E-0663-4843-86A2-71EF3158A3DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3572C60C-4F3F-4177-9386-5B1D8A294AF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3572C60C-4F3F-4177-9386-5B1D8A294AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3572C60C-4F3F-4177-9386-5B1D8A294AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3572C60C-4F3F-4177-9386-5B1D8A294AF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
