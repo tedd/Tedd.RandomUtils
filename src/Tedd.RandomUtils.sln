@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31808.319
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils", "Tedd.RandomUtils\Tedd.RandomUtils.csproj", "{5816102C-9D94-49B2-AA0A-86FA0057ADE6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils.Tests", "Tedd.RandomUtils.Tests\Tedd.RandomUtils.Tests.csproj", "{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils.Tests.netcoreapp3.1", "Tedd.RandomUtils.Tests\Tedd.RandomUtils.Tests.netcoreapp3.1.csproj", "{A89F3C25-A6F2-4C3C-8C8C-798EE0BCF6D4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tedd.RandomUtils.Benchmarks", "Tedd.RandomUtils.Benchmarks\Tedd.RandomUtils.Benchmarks.csproj", "{538B0D51-1053-4B1D-9C00-2C0465361ED8}"
 EndProject
