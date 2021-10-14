@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
     <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="0.13.1" />
-    <PackageReference Include="BenchmarkDotNet.Toolchains.Roslyn" Version="0.10.14" />
+    <PackageReference Include="xunit" Version="2.4.2-pre.12" />
   </ItemGroup>
 
   <ItemGroup>
