@@ -18,6 +18,19 @@ CryptoRandom uses the operating systems underlying CSP (Cryptographic Service Pr
 FastRandom uses a variant of [Lehmer](https://en.wikipedia.org/wiki/Lehmer_random_number_generator) to quickly calculate pseudorandom numbers. This is achieved by multiplying the seed with a large prime. The resulting number is both the new random number and the new seed used for next random number. The output of this implementation has been tested and passes all [Dieharder](https://webhome.phy.duke.edu/~rgb/General/dieharder.php) tests of randomness.
 Note that seed 0 will cause exception.
 
+# Architectural Execution Flow
+The `Tedd.RandomUtils` framework is designed to provide high-performance, thread-safe, and cryptographically secure random number generation abstractions, while maintaining strict architectural parity with the standard `System.Random` interface.
+
+## Implemented Framework Capabilities (Facts)
+*   **Hierarchical Data Binding:** Extension methods bind directly to the standard `System.Random` class, extending its capabilities to support a comprehensive set of primitive datatypes without requiring structural modifications to existing codebases.
+*   **Thread-Safe Operational Routing:** The `ConcurrentRandom` and `ConcurrentCryptoRandom` implementations leverage synchronized access primitives (e.g., `SpinLock`) to route data requests securely across concurrent threads. This eliminates race conditions intrinsic to standard, non-synchronized generator instances.
+*   **Cryptographic Abstractions:** The `CryptoRandom` implementation interfaces directly with the underlying operating system's Cryptographic Service Provider (CSP). This yields high-entropy random data suitable for security-sensitive applications, functioning as a seamless drop-in replacement for `System.Random`.
+*   **High-Performance Generation:** The `FastRandom` implementation employs a computationally optimized Lehmer pseudo-random number generator, delivering significant performance enhancements for scenarios where speed is critical and cryptographic security is not mandatory.
+
+## Planned Future Enhancements (Roadmap Hypotheses)
+*   *Future integration of retro-computing DOS-era controls operating with modern binding contexts is currently under investigation but is not yet implemented.*
+*   *Exploration of advanced hardware-accelerated random number generation techniques for specialized architectures.*
+
 # Examples
 
 ## Random by type
@@ -40,6 +53,7 @@ string val11 = rnd.NextString("abcdefg", 8);
 ## Thread safe random
 Thread safe random.
 ```csharp
+var byteArray = new byte[16];
 bool   val1  = ConcurrentRandom.NextBoolean();
 sbyte  val2  = ConcurrentRandom.NextSByte();
 byte   val3  = ConcurrentRandom.NextByte();
@@ -56,7 +70,8 @@ ConcurrentRandom.NextBytes(byteArray);
 
 ## Crypto strength random
 ```csharp
-using rnd = new CryptoRandom();
+using var rnd = new CryptoRandom();
+var byteArray = new byte[16];
 
 bool   val1  = rnd.NextBoolean();
 sbyte  val2  = rnd.NextSByte();
@@ -75,6 +90,7 @@ rnd.NextBytes(byteArray);
 ## Thread safe random
 Thread safe crypto strength random.
 ```csharp
+var byteArray = new byte[16];
 bool   val1  = ConcurrentCryptoRandom.NextBoolean();
 sbyte  val2  = ConcurrentCryptoRandom.NextSByte();
 byte   val3  = ConcurrentCryptoRandom.NextByte();
@@ -91,7 +107,8 @@ ConcurrentCryptoRandom.NextBytes(byteArray);
 
 ## Fast random
 ```csharp
-using rnd = new FastRandom();
+using var rnd = new FastRandom();
+var byteArray = new byte[16];
 
 bool   val1  = rnd.NextBoolean();
 sbyte  val2  = rnd.NextSByte();
@@ -130,7 +147,7 @@ using (var rnd = new CryptoRandom()) {
 Note that it is recommended to create a shared Random object, and in case of multiple threads use synchronized access to generate random data.
 ```csharp
 public static class Main {
-	public static CryptoRandom Rnd = new CryptoRandomRandom();
+	public static CryptoRandom Rnd = new CryptoRandom();
 
 	public static void Start() {
 		int dice;
