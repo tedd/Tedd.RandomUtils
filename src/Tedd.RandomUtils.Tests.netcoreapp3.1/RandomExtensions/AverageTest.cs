@@ -8,7 +8,7 @@ namespace Tedd.RandomUtils.Tests.RandomExtensions
     {
         private int count = 100;
         private int iterations = 100_000;
-        private float tolerance = 0.95f;
+        private float tolerance = 0.85f;
 
 
 

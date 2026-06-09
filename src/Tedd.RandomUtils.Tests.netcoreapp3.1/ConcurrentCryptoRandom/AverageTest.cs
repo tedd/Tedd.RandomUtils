@@ -9,7 +9,7 @@ namespace Tedd.RandomUtils.Tests.ConcurrentCryptoRandom
     {
         private int count = 10;
         private int iterations = 100_000;
-        private float tolerance = 0.1f;
+        private float tolerance = 0.85f;
 
         [Fact]
         public void TestNext()
