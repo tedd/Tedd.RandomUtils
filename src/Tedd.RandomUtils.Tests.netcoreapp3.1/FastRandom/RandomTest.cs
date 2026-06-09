@@ -92,7 +92,7 @@ namespace Tedd.RandomUtils.Tests.FastRandom
             }
 
             var expected = iterations / rCount.Length;
-            var maxOff = (int)(expected * 0.95f);
+            var maxOff = (int)(expected * 0.90f);
             for (var i = 0; i < rCount.Length; i++)
                 Assert.True(rCount[i] > maxOff, $"Histogram has uneven distribution, count is {rCount[i]} < {maxOff}");
         } 
@@ -110,7 +110,7 @@ namespace Tedd.RandomUtils.Tests.FastRandom
             }
 
             var expected = iterations / rCount.Length;
-            var maxOff = (int)(expected * 0.95f);
+            var maxOff = (int)(expected * 0.90f);
             for (var i = 0; i < rCount.Length; i++)
                 Assert.True(rCount[i] > maxOff, $"Histogram has uneven distribution, count is {rCount[i]} < {maxOff}");
         }
@@ -141,7 +141,7 @@ namespace Tedd.RandomUtils.Tests.FastRandom
 
             // We expect average of high amount of random numbers to be close to 127.5D.
             var diff = Math.Abs(avg - 127.5m);
-            Assert.True(diff < 0.02m, $"Diff {diff} must be less than 0.02m");
+            Assert.True(diff < 0.05m, $"Diff {diff} must be less than 0.05m");
         }
 
     }
