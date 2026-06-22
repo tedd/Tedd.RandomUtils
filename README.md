@@ -106,7 +106,7 @@ ConcurrentCryptoRandom.NextBytes(byteArray);
 
 ## Fast random
 ```csharp
-using var rnd = new FastRandom();
+var rnd = new FastRandom();
 var byteArray = new byte[16];
 
 bool   val1  = rnd.NextBoolean();
