@@ -28,7 +28,6 @@ The `Tedd.RandomUtils` framework is designed to provide high-performance, thread
 *   **High-Performance Generation:** The `FastRandom` implementation employs a computationally optimized Lehmer pseudo-random number generator, delivering significant performance enhancements for scenarios where speed is critical and cryptographic security is not mandatory.
 
 ## Planned Future Enhancements (Roadmap Hypotheses)
-*   *Future integration of retro-computing DOS-era controls operating with modern binding contexts is currently under investigation but is not yet implemented.*
 *   *Exploration of advanced hardware-accelerated random number generation techniques for specialized architectures.*
 
 # Examples
