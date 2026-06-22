@@ -24,7 +24,7 @@ The `Tedd.RandomUtils` framework is designed to provide high-performance, thread
 ## Implemented Framework Capabilities (Facts)
 *   **Hierarchical Data Binding:** Extension methods bind directly to the standard `System.Random` class, extending its capabilities to support a comprehensive set of primitive datatypes without requiring structural modifications to existing codebases.
 *   **Thread-Safe Operational Routing:** The `ConcurrentRandom` and `ConcurrentCryptoRandom` implementations leverage synchronized access primitives (e.g., `SpinLock`) to route data requests securely across concurrent threads. This eliminates race conditions intrinsic to standard, non-synchronized generator instances.
-*   **Cryptographic Abstractions:** The `CryptoRandom` implementation interfaces directly with the underlying operating system's Cryptographic Service Provider (CSP). This yields high-entropy random data suitable for security-sensitive applications, functioning as a seamless drop-in replacement for `System.Random`.
+*   **Cryptographic Abstractions:** The `CryptoRandom` implementation uses `System.Security.Cryptography.RandomNumberGenerator` to obtain operating system-provided cryptographically secure random bytes. This yields high-entropy random data suitable for security-sensitive applications.
 *   **High-Performance Generation:** The `FastRandom` implementation employs a computationally optimized Lehmer pseudo-random number generator, delivering significant performance enhancements for scenarios where speed is critical and cryptographic security is not mandatory.
 
 ## Planned Future Enhancements (Roadmap Hypotheses)
