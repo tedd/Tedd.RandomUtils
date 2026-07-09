@@ -35,6 +35,7 @@ The `Tedd.RandomUtils` framework is designed to provide high-performance, thread
 ## Random by type
 ```csharp
 var rnd = new Random();
+var byteArray = new byte[16];
 
 bool   val1  = rnd.NextBoolean();
 sbyte  val2  = rnd.NextSByte();
@@ -47,12 +48,14 @@ long   val8  = rnd.NextInt64();
 ulong  val9  = rnd.NextUInt64();
 float  val10 = rnd.NextFloat();
 string val11 = rnd.NextString("abcdefg", 8);
+rnd.NextBytes(byteArray);
 ```
 
 ## Thread safe random
 Thread safe random.
 ```csharp
 var byteArray = new byte[16];
+
 bool   val1  = ConcurrentRandom.NextBoolean();
 sbyte  val2  = ConcurrentRandom.NextSByte();
 byte   val3  = ConcurrentRandom.NextByte();
@@ -90,6 +93,7 @@ rnd.NextBytes(byteArray);
 Thread safe crypto strength random.
 ```csharp
 var byteArray = new byte[16];
+
 bool   val1  = ConcurrentCryptoRandom.NextBoolean();
 sbyte  val2  = ConcurrentCryptoRandom.NextSByte();
 byte   val3  = ConcurrentCryptoRandom.NextByte();
@@ -130,12 +134,11 @@ Drop-in replacement for [System.Random](https://msdn.microsoft.com/en-us/library
 Works exactly like [System.Random](https://msdn.microsoft.com/en-us/library/system.random(v=vs.110).aspx), except you may want to dispose of it when you are done.
 (If you don't dispose of it, the destructor will do it for you upon garbage collect.)
 ```csharp
-var rnd = new CryptoRandom();
+using var rnd = new CryptoRandom();
 var dice = rnd.Next(1, 7); // A random number between 1 and 6 inclusive
-rnd.Dispose();
 ```
 
-Or with using:
+Or with using block (prior to C# 8):
 ```csharp
 using (var rnd = new CryptoRandom()) {
 	var percent = rnd.NextDouble() * 100;
@@ -150,8 +153,9 @@ public static class Main {
 
 	public static void Start() {
 		int dice;
-		lock (Rnd)
+		lock (Rnd) {
 			dice = Rnd.Next(1, 7); // A random number between 1 and 6 inclusive
+		}
 	}
 }
 ```
