@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7faf9">
+  <meta name="description" content="Tedd.RandomUtils extends System.Random and provides synchronized, cryptographic, and high-throughput random generators for .NET.">
+  <title>Tedd.RandomUtils — Random number utilities for .NET</title>
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Tedd.RandomUtils home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>TEDD<span>/</span>RANDOMUTILS</span></a>
+    <nav aria-label="Primary navigation"><a href="#generators">Generators</a><a href="#choose">Choose</a><a href="#examples">Examples</a><a href="https://github.com/tedd/Tedd.RandomUtils">Source</a><a class="nav-cta" href="#install">Install</a></nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="grid-field" aria-hidden="true"></div>
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Random number utilities for .NET</p>
+        <h1>One familiar API.<br><em>Four operating models.</em></h1>
+        <p class="lede">Extend <code>System.Random</code>, share a synchronized generator, draw bytes from the operating system, or select a compact Lehmer-based generator.</p>
+        <div class="actions"><a class="button primary" href="#install">Install from NuGet <span aria-hidden="true">↓</span></a><a class="button secondary" href="https://github.com/tedd/Tedd.RandomUtils">Read the source <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <div class="random-panel" aria-label="Random generator overview">
+        <div class="window-bar"><span></span><span></span><span></span><b>Generator selection</b></div>
+        <div class="random-value"><span>UINT64</span><strong>13 847 294 661 083 719 547</strong></div>
+        <div class="random-bits" aria-hidden="true">1011 1111 1010 0010 0110 1101 0100 1001</div>
+        <div class="generator-status"><p><i></i><span>EXTENSIONS</span><strong>System.Random</strong></p><p><i></i><span>CONCURRENT</span><strong>Synchronized access</strong></p><p><i></i><span>CRYPTO</span><strong>OS entropy</strong></p><p><i></i><span>FAST</span><strong>Lehmer PRNG</strong></p></div>
+      </div>
+    </section>
+
+    <section class="proof-strip" aria-label="Library summary"><p><strong>Full-width integers</strong><span>Signed and unsigned</span></p><p><strong>Thread-safe options</strong><span>Shared concurrent access</span></p><p><strong>Cryptographic source</strong><span>RandomNumberGenerator</span></p><p><strong>Six target families</strong><span>.NET Framework to .NET 6</span></p></section>
+
+    <section class="section-shell" id="generators">
+      <div class="section-intro reveal"><div><p class="eyebrow">Purpose-specific generators</p><h2>Choose semantics<br>before speed.</h2></div><p>The implementations share familiar method names but serve materially different requirements. Cryptographic work requires an operating-system-backed generator; deterministic or throughput-oriented work does not.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card featured reveal"><span class="feature-icon">+</span><h3>Random extensions</h3><p>Add booleans, all integer widths, floats, and strings to an existing <code>System.Random</code> instance.</p></article>
+        <article class="feature-card reveal"><span class="feature-icon">∞</span><h3>ConcurrentRandom</h3><p>Expose static, synchronized access when multiple threads need a shared pseudorandom source.</p></article>
+        <article class="feature-card reveal"><span class="feature-icon">◇</span><h3>CryptoRandom</h3><p>Present a Random-like interface over <code>RandomNumberGenerator</code> for security-sensitive values.</p></article>
+        <article class="feature-card reveal"><span class="feature-icon">◇∞</span><h3>ConcurrentCryptoRandom</h3><p>Combine operating-system random bytes with a shared thread-safe entry point.</p></article>
+        <article class="feature-card reveal"><span class="feature-icon">↯</span><h3>FastRandom</h3><p>Use a small Lehmer-based pseudorandom generator where throughput matters and cryptographic unpredictability does not.</p></article>
+        <article class="feature-card reveal"><span class="feature-icon">AZ</span><h3>Random strings</h3><p>Generate fixed-length strings from caller-selected characters alongside complete primitive value ranges.</p></article>
+      </div>
+    </section>
+
+    <section class="choice-section section-shell" id="choose">
+      <div class="choice-copy reveal"><p class="eyebrow">Selection guide</p><h2>Match the generator to the consequence.</h2><p>A faster pseudorandom sequence is not a substitute for cryptographic unpredictability. Conversely, an OS-backed generator is unnecessary for simulations or visual effects that only need ordinary distribution.</p></div>
+      <div class="choice-table reveal" role="table" aria-label="Generator selection guide">
+        <div class="choice-row heading" role="row"><span>Need</span><span>Use</span><span>Property</span></div>
+        <div class="choice-row" role="row"><span>More value types</span><strong>Random extensions</strong><small>Retains your existing generator</small></div>
+        <div class="choice-row" role="row"><span>Shared use across threads</span><strong>ConcurrentRandom</strong><small>Synchronized static access</small></div>
+        <div class="choice-row" role="row"><span>Security-sensitive values</span><strong>CryptoRandom</strong><small>Operating-system entropy</small></div>
+        <div class="choice-row" role="row"><span>Fast non-crypto sequence</span><strong>FastRandom</strong><small>Lehmer pseudorandom generator</small></div>
+      </div>
+    </section>
+
+    <section class="section-shell examples" id="examples">
+      <div class="section-intro reveal"><div><p class="eyebrow">Familiar call sites</p><h2>Move between sources<br>without relearning the surface.</h2></div><p>Use explicit generator names to make concurrency and security choices visible at the call site.</p></div>
+      <div class="code-grid reveal">
+        <div class="code-card"><span>EXTENSIONS</span><pre><code><b>using</b> Tedd;
+
+<b>var</b> random = <b>new</b> Random();
+<b>var</b> id = random.NextUInt64();
+<b>var</b> token = random.NextString("abcdef", 16);</code></pre></div>
+        <div class="code-card"><span>CRYPTOGRAPHIC</span><pre><code><b>using</b> Tedd.RandomUtils;
+
+<b>using var</b> random = <b>new</b> CryptoRandom();
+<b>var</b> nonce = <b>new byte</b>[32];
+random.NextBytes(nonce);</code></pre></div>
+      </div>
+    </section>
+
+    <section class="install section-shell" id="install">
+      <div class="install-card reveal"><div><p class="eyebrow">NuGet package</p><h2>Add the generator set.</h2><p>Targets .NET Framework 4.6.2, .NET Standard 2.0 and 2.1, .NET Core 3.1, .NET 5, and .NET 6. Licensed under MIT.</p></div><div class="install-command"><span>TERMINAL</span><code>dotnet add package Tedd.RandomUtils</code><button type="button" data-copy="dotnet add package Tedd.RandomUtils">Copy</button></div><div class="actions"><a class="button primary" href="https://www.nuget.org/packages/Tedd.RandomUtils">View on NuGet <span aria-hidden="true">↗</span></a><a class="button secondary" href="https://github.com/tedd/Tedd.RandomUtils#examples">Read the examples</a></div></div>
+    </section>
+  </main>
+
+  <footer><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>TEDD/RANDOMUTILS</span></a><p>Purpose-specific random generators for .NET.</p><div><a href="https://www.nuget.org/packages/Tedd.RandomUtils">NuGet</a><a href="https://github.com/tedd/Tedd.RandomUtils">Source</a><a href="https://github.com/tedd/Tedd.RandomUtils/blob/main/LICENSE">MIT</a></div></footer>
+</body>
+</html>

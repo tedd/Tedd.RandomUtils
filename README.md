@@ -1,4 +1,8 @@
-# NuGet
+# Tedd.RandomUtils
+
+[Website](https://tedd.no/Tedd.RandomUtils/) · [NuGet](https://www.nuget.org/packages/Tedd.RandomUtils) · [Source](https://github.com/tedd/Tedd.RandomUtils)
+
+## NuGet
 Available as NuGet package: https://www.nuget.org/packages/Tedd.RandomUtils
 
 # Content
