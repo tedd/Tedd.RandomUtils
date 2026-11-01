@@ -12,7 +12,7 @@ namespace Tedd.RandomUtils
     {
         private static readonly SpinLock SpinLock = new SpinLock(false);
         private static readonly Random Random = new Random();
-     
+
         #region Standard Random methods
 
         /// <summary>
