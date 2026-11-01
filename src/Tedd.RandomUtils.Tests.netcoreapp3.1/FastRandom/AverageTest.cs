@@ -84,8 +84,8 @@ namespace Tedd.RandomUtils.Tests.FastRandom
                 for (var i = 0; i < iterations; i++)
                     sum += rnd.NextSByte();
                 sum /= iterations;
-                var mid = (SByte.MinValue + SByte.MaxValue) / 2;
-                Assert.InRange(sum, (SByte)(mid - Byte.MaxValue * tolerance), (SByte)(mid + Byte.MaxValue * tolerance));
+                var mid = 0;
+                Assert.InRange((int)sum, (int)(-SByte.MaxValue * tolerance), (int)(SByte.MaxValue * tolerance));
             }
         }
 
@@ -99,8 +99,8 @@ namespace Tedd.RandomUtils.Tests.FastRandom
                 for (var i = 0; i < iterations; i++)
                     sum += rnd.NextByte();
                 sum /= iterations;
-                var mid = (Byte.MinValue + Byte.MaxValue) / 2;
-                Assert.InRange(sum, (Byte)(mid - Byte.MaxValue * tolerance), (Byte)(mid + Byte.MaxValue * tolerance));
+                var mid = (int)Byte.MaxValue / 2;
+                Assert.InRange((int)sum, (int)(mid - Byte.MaxValue * tolerance), (int)(mid + Byte.MaxValue * tolerance));
             }
         }
 
@@ -114,8 +114,8 @@ namespace Tedd.RandomUtils.Tests.FastRandom
                 for (var i = 0; i < iterations; i++)
                     sum += rnd.NextInt16();
                 sum /= iterations;
-                var mid = (Int16.MinValue + Int16.MaxValue) / 2;
-                Assert.InRange(sum, (Int16)(mid - UInt16.MaxValue * tolerance), (Int16)(mid + UInt16.MaxValue * tolerance));
+                var mid = 0;
+                Assert.InRange((int)sum, (int)(-Int16.MaxValue * tolerance), (int)(Int16.MaxValue * tolerance));
             }
         }
 
@@ -129,8 +129,8 @@ namespace Tedd.RandomUtils.Tests.FastRandom
                 for (var i = 0; i < iterations; i++)
                     sum += rnd.NextUInt16();
                 sum /= iterations;
-                var mid = (UInt16.MinValue + UInt16.MaxValue) / 2;
-                Assert.InRange(sum, (UInt16)(mid - UInt16.MaxValue * tolerance), (UInt16)(mid + UInt16.MaxValue * tolerance));
+                var mid = (int)UInt16.MaxValue / 2;
+                Assert.InRange((int)sum, (int)(mid - UInt16.MaxValue * tolerance), (int)(mid + UInt16.MaxValue * tolerance));
             }
         }
 
@@ -145,8 +145,8 @@ namespace Tedd.RandomUtils.Tests.FastRandom
                 for (var i = 0; i < iterations; i++)
                     sum += rnd.NextInt32();
                 sum /= iterations;
-                var mid = (Int32.MinValue + Int32.MaxValue) / 2;
-                Assert.InRange(sum, (Int32)(mid - UInt32.MaxValue * tolerance), (Int32)(mid + UInt32.MaxValue * tolerance));
+                var mid = 0;
+                Assert.InRange((long)sum, (long)(-(long)Int32.MaxValue * tolerance), (long)((long)Int32.MaxValue * tolerance));
             }
         }
 
@@ -160,8 +160,8 @@ namespace Tedd.RandomUtils.Tests.FastRandom
                 for (var i = 0; i < iterations; i++)
                     sum += rnd.NextUInt32();
                 sum /= iterations;
-                var mid = (UInt32.MinValue + UInt32.MaxValue) / 2;
-                Assert.InRange(sum, (UInt32)(mid - UInt32.MaxValue * tolerance), (UInt32)(mid + UInt32.MaxValue * tolerance));
+                var mid = (long)UInt32.MaxValue / 2;
+                Assert.InRange((long)sum, (long)(mid - UInt32.MaxValue * tolerance), (long)(mid + UInt32.MaxValue * tolerance));
             }
         }
 
