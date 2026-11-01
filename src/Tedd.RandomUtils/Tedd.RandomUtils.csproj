@@ -1,8 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
-    <!--<TargetFramework>net6.0</TargetFramework>-->
+    <TargetFrameworks>net462;netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net8.0;net9.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Tedd Hansen</Authors>
     <Company>Tedd Hansen</Company>
@@ -10,6 +9,7 @@
     <PackageTags>FastRandom ConcurrentRandom Fast Thread safe Lockless RNG Crypto Random System.Random NextSByte NextByte NextInt64 NextUInt16 NextInt32 NextUInt32 NextInt64 NextUInt64</PackageTags>
     <Copyright>Tedd Hansen</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/tedd/Tedd.RandomUtils</PackageProjectUrl>
     <RepositoryUrl>https://github.com/tedd/Tedd.RandomUtils</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
@@ -19,46 +19,53 @@ Added FastRandom based on Lehmer which is 70% faster than System.Random.
 Increased speed of ConcurrentRandom by 25% by avoiding ThreadLocal.
 Increased speed of FastRandom Single/Double to 38% of System.Random.</PackageReleaseNotes>
   </PropertyGroup>
-  <ItemGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^(net4|netcoreapp2|netstandard)'))">
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
-  </ItemGroup>
 
   <PropertyGroup>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^(net(46[1-9]|4[7-9]|[5-9])|netstandard(2\.[1-9]|[3-9]\d*\.)|netcoreapp(2\.[1-9]|[3-9]\.))'))">
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'">
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
+    <PackageReference Include="System.Memory" Version="4.6.3" />
+    <PackageReference Include="System.Buffers" Version="4.6.1" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' != 'netstandard2.0'">
     <DefineConstants>$(DefineConstants);HASSPAN;HAS_SYSTEMBUFFERS</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^net4'))">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
     <DefineConstants>$(DefineConstants);NETFRAMEWORK</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^net6'))">
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net8.0' or '$(TargetFramework)' == 'net9.0'">
     <DefineConstants>$(DefineConstants);NET6</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^(netcoreapp|netstandard2\.1|net[56789])'))">
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1' or '$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'net5.0' or '$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net8.0' or '$(TargetFramework)' == 'net9.0'">
     <DefineConstants>$(DefineConstants);NETCOREAPP</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^(net4|netcoreapp2|netstandard)'))">
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'">
     <DefineConstants>$(DefineConstants);BEFORENETCOREAPP3</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^netstandard2\.1'))">
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
     <DefineConstants>$(DefineConstants);NETSTANDARD21</DefineConstants>
   </PropertyGroup>
-
-  <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <PackageReference Include="System.Memory" Version="4.5.4" />
-    <PackageReference Include="System.Buffers" Version="4.5.1" />
-  </ItemGroup>
-
-
 
   <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
-
 
 </Project>
