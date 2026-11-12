@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net462;netstandard2.0;netstandard2.1;netcoreapp3.1;net5.0;net6.0;net8.0;net9.0</TargetFrameworks>
     <!--<TargetFramework>net6.0</TargetFramework>-->
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Tedd Hansen</Authors>
@@ -18,9 +18,10 @@
 Added FastRandom based on Lehmer which is 70% faster than System.Random.
 Increased speed of ConcurrentRandom by 25% by avoiding ThreadLocal.
 Increased speed of FastRandom Single/Double to 38% of System.Random.</PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('$(TargetFramework)', '^(net4|netcoreapp2|netstandard)'))">
-    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="5.0.0" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -47,8 +48,8 @@ Increased speed of FastRandom Single/Double to 38% of System.Random.</PackageRel
   </PropertyGroup>
 
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4'))">
-    <PackageReference Include="System.Memory" Version="4.5.4" />
-    <PackageReference Include="System.Buffers" Version="4.5.1" />
+    <PackageReference Include="System.Memory" Version="4.6.3" />
+    <PackageReference Include="System.Buffers" Version="4.6.1" />
   </ItemGroup>
 
 
@@ -61,4 +62,11 @@ Increased speed of FastRandom Single/Double to 38% of System.Random.</PackageRel
   </ItemGroup>
 
 
+
+  <ItemGroup>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>
